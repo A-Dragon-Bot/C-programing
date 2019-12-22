@@ -1,0 +1,21 @@
+题1 2019-12-22
+求给定二叉树的最小深度。最小深度是指树的根结点到最近叶子结点的最短路径上结点的数量。
+Given a binary tree, find its minimum depth.The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+AC Code
+class Solution {
+public:
+    int run(TreeNode *root) {
+        if(root==nullptr)
+            return 0;
+        if(root->left==nullptr){
+            return run(root->right)+1;
+        }
+        if(root->right==nullptr){
+            return run(root->left)+1;
+        }
+        
+        int rightlen=run(root->right)+1;
+        int leftlen=run(root->left)+1;
+        return rightlen < leftlen ? rightlen :leftlen;
+    }
+};

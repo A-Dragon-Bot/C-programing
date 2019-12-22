@@ -1,0 +1,5668 @@
+﻿编程软件：DEV C++
+致谢：感谢高同学提供的习题列表。
+时间2018/7/11
+题号：2000
+ASCII码排序
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2000
+题目：输入三个字符后，按各字符的ASCII码从小到大的顺序输出这三个字符。
+Input：输入数据有多组，每组占一行，有三个字符组成，之间无空格。
+Output：对于每组输入数据，输出一行，字符中间用一个空格分开。
+示例：
+qwe
+asd
+zxc
+-----
+e q w
+a d s
+c x z
+解题思路：
+1.输入一段字符串
+2.strlen计算字符串的长度
+3.对字符串做冒泡排序
+4.按照输出格式顺序输出出来
+一遍提交直接AC。
+AC code
+#include<iostream>
+#include<string.h>
+using namespace std;
+int main(){
+	int i,j,len,tem;
+	char a[10];
+	while(cin>>a){
+    len=strlen(a);
+	for(j=0;j<len;j++){
+    	for(i=0;i<len-1-j;i++){
+	    	if(a[i]>a[i+1]){
+		    	tem=a[i];
+		    	a[i]=a[i+1];
+		    	a[i+1]=tem;
+		   }
+	    } 
+	}
+   for(i=0;i<len;i++){
+     	cout<<a[i];
+     	if(i<len-1){
+		printf(" ");
+		}else{
+		printf("\n");
+	 }
+    }
+   	}
+   return 0;
+}
+
+题号：2001
+计算两点间的距离
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2001
+题目：输入两点坐标（X1,Y1）,（X2,Y2）,计算并输出两点间的距离。
+Input：输入数据有多组，每组占一行，由4个实数组成，分别表示x1,y1,x2,y2,数据之间用空格隔开。
+Output：对于每组输入数据，输出一行，结果保留两位小数。
+示例：
+0 0 0 1
+0 1 1 0
+-----
+1.00
+1.41
+解题思路：
+1.float x1,y1,x2,y2 distance
+2.用两点距离公式计算距离
+3.输出保留两位小数 .2f
+样例跑通过了之后
+第一遍提交：wrong answer
+我查找原因：仔细读题，输入数据是由4个实数组成，我定义的输入数据是int型，实数应该包括小数等。
+后来都将输入和输出数据定义为float型。提交AC。
+AC code
+#include<iostream>
+#include<math.h>
+using namespace std;
+int main(){
+	float x1,y1,x2,y2;
+	float distance=0.0;
+    while(cin>>x1>>y1>>x2>>y2){
+    	distance=sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+    	printf("%.2f\n",distance);
+   }
+	return 0;
+}
+
+题号：2002
+计算球体积
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2002
+题目：根据输入的半径值，计算球的体积。
+Input：输入数据有多组，每组占一行，每行包括一个实数，表示球的半径。
+Output：输出对应的球的体积，对于每组输入数据，输出一行，计算结果保留三位小数。
+示例：
+1
+1.5
+4.189
+14.137
+解题思路:
+1.double r,V
+2.用球的公式球的体积V=(4/3)*PI*r*r*r
+4.输出结果 保留三位小数 .3lf
+写完代码，运行结果错误。
+示例通不过。
+运行结果:
+1
+1.5
+-----
+3.142
+10.603
+思考：应该是精度不对。
+4/3计算机结果会得1。
+修改球的计算方式：V=(4*PI*r*r*r）/3
+示例通过。
+提交代码AC
+AC code
+#include<iostream>
+#define PI 3.1415927
+using namespace std;
+int main(){
+	double r,V=0.0;
+	while(cin>>r){
+		V=(4*PI*r*r*r)/3;
+		printf("%.3lf\n",V);
+		
+	}
+	return 0;
+} 
+
+时间2018/7/12 9:34
+题号：2003
+求绝对值
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2003
+题目：求实数的绝对值。
+Input：输入数据有多组，每组占一行，每行包含一个实数。
+Output：对于每组输入数据，输出它的绝对值，要求每组数据输出一行，结果保留两位小数。
+示例：
+123
+-234.00
+-----
+123.00
+234.00
+解题思路：
+1.按行输入一个实数m（float）
+2.输出绝对值要考虑0的情况。
+3.用公式abs计算绝对值（或者判断m是否大于0，若大于等于0 输出m，若小于0，输出-m）
+自己运行示例通过
+但是提交一直wrong answer
+不知道什么原因
+后来把float改为double 类型提交才AC.
+不太清楚为什么必须要用double？可能是该题精度要求比较高。
+AC code
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main(){
+	double m;
+	while(cin>>m){
+		if(m==0){
+			cout<<"0.00"<<endl;
+		}else {
+		  printf("%.2lf\n",abs(m));
+	 }
+	}
+	return 0;
+}
+
+题号：2004
+成绩转换
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2004
+题目：输入一个百分制的成绩t，将其转换成对应的等级，具体转换规则如下：
+90~100为A;
+80~89为B;
+70~79为C;
+60~69为D;
+0~59为E;
+Input：输入数据有多组，每组占一行，由一个整数组成。
+Output：对于每组输入数据，输出一行。如果输入数据不在0~100范围内，请输出一行：“Score is error!”。
+示例：
+56
+67
+100
+123
+-----
+E
+D
+A
+Score is error!
+解题思路：
+1.定义成绩t，t为整数（定义为int型）
+2.对输入数据判断范围0~100。
+3.用if else条件语句判断分数，输入对应的结果。
+一遍AC
+AC code
+#include<iostream>
+using namespace std;
+int main(){
+	int score;
+	while(cin>>score){
+		if(score<0||score>100){
+			cout<<"Score is error!"<<endl;
+		}else if(score>=90&&score<=100){
+			cout<<"A"<<endl;
+		}else if(score>=80&&score<=89){
+			cout<<"B"<<endl;
+		}else if(score>=70&&score<=79){
+			cout<<"C"<<endl;
+		}else if(score>=60&&score<=68){
+			cout<<"D"<<endl;
+		}else{
+			cout<<"E"<<endl;
+		}
+	} 
+	return 0;
+}
+
+题号：2005
+第几天？
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2005
+题目：给定一个日期，输出这个日期是该年的第几天。
+Input：输入数据有多组，每组占一行，数据格式为YYYY/MM/DD组成，具体参见sample input ,另外，可以向你确保所有的输入数据是合法的。
+Output：对于每组输入数据，输出一行，表示该日期是该年的第几天。
+示例：
+1985/1/20
+2006/3/12
+-----
+20
+71
+解题思路：
+1.判断输入数据合法,思考输入一个字符串？还是三个int两个char，选择了后者。
+2.判断年份是否为闰年还是平年
+3.定义一个数组，长度位12，放平年每个月份的天数
+4.然后根据闰年和平年，来分别计算日期是该年的第几天data。
+示例通过
+提交代码wrong answer
+后来单步调试发现，发现我的data计算之前没有初始化。导致后面的数据计算的天数会变多。
+将data的初始化放到while循环里面。
+修改之后提交代码。
+提交代码还是wrong answer
+然后发现我每一次的第二个月份如果是闰年就+1天，+1之后没有还原平年2月份为28，导致后面的结果出错。
+修改代码。
+第三遍终于AC
+AC code
+#include<iostream>
+using namespace std;
+int main(){
+	int year,month,day,i;
+	int m[12]={31,28,31,30,31,30,31,31,30,31,30,31}; 
+	char c;
+	while(cin>>year>>c>>month>>c>>day){
+		int data=0;
+		m[1]=28;
+		if(((year%4==0)&&(year%100!=0))||(year%400==0)){
+			m[1]=m[1]+1;
+		}
+		for(i=1;i<month;i++){
+			data+=m[i-1];	
+			//cout<<data<<endl;		
+		}
+		cout<<data+day<<endl;
+		
+	}
+	return 0;
+	
+} 
+
+时间2018/7/13 16:06
+题号：2006
+求奇数的乘积
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2006
+题目：给你n个整数，求他们中所有奇数的乘积。
+Input：输入数据包含多个测试实例，每个测试实例占一行，每行的第一个数为n，表示本组数据一共有n个，接着是n个整数，你可以假设每组数据必定至少存在一个奇数。
+Output：输出每组数中的所有奇数的乘积，对于测试实例，输出一行。
+示例：
+3 1 2 3
+4 2 3 4 5
+-----
+3
+15
+解题思路：
+1.输入，输入n，for循环，输入n个数。（注意输入数据有多个案例。）
+2.定义一个int型数组存储输入的n个数中的奇数，数组的大小？
+3.在for循环中每输入一个数判断该数是否为奇数，若为奇数则存储在数组中
+4.计算数组中奇数的乘积。
+代码跑过示例之后，提交一次AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n,i;
+	int t;
+	int num[100]; 
+	while(cin>>n){
+    int j=0;
+	for(i=0;i<n;i++){
+		cin>>t;
+		if(t%2==1){
+			num[j] =t;
+			//cout<<num[j]<<endl;
+			j++;
+			
+		} 
+	}
+	//cout<<"j"<<j<<endl;
+	int result=1;
+	int m;
+	for(m=0;m<j;m++){
+		result=num[m]*result;
+	}
+    cout<<result<<endl;
+	}	
+	return 0;
+}
+
+题号：2007
+平方和与立方和
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2007
+题目：给定一段连续的整数，求出他们中所有偶数的平方和以及所有奇数的立方和。
+Input：输入数据包含多组测试实例，每组测试实例包含一行，由两个整数m和n组成。
+Output：对于每组输入数据，输出一行，应包括两个整数x和y，分别表示该段连续的整数中所有偶数的平方和以及所有奇数的立方和。
+你可以认为32位整数足以保存结果。
+示例：
+1 3
+2 5
+-----
+4 28
+20 152
+解题思路：
+读题花费了3min，开始没有理解一段连续的整数，原来指一段连续的整数（例如输入m，n，求的就是m~n中所有偶数的平方和相加和所有奇数的立方和相加。
+1.输入整数int m，n
+2.for循环m~n，判断m~n之间的数的奇偶性
+3.计算所有偶数的平方和以及所有奇数的立方和。
+示例通过后一遍提交wrong answer
+查找了半天原因都没有找到，觉得自己的程序没有错误。
+后来去问了一下经常做acm的同学，他说我没有对m，n的大小判断，如果你输入的m>n的话，你的程序就得不到正确的结果。
+在此感谢JJ同学的帮助。
+修改代码后，提交代码AC
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int m,n;
+	int i,temp;
+	while(cin>>m>>n){
+		int result1=0;
+		int result2=0; 
+		if(m>n){
+			temp=m;
+			m=n;
+			n=temp;			
+		}
+		for(i=m;i<=n;i++){
+			if(i%2==0){
+				result1+=i*i;
+			}else{
+				result2+=i*i*i;
+			}
+		}
+		cout<<result1<<" "<<result2<<endl;
+	}
+	return 0;
+} 
+
+题号：2008
+数值统计
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2008
+题目：统计给定的n个数中，负数、零和正数的个数。
+Input：输入数据有多组，每组占一行，每行的第一个数是整数n（n<100），表示需要统计的数值的个数，然后是n个实数；如果n=0，则表示输入结束，该行不做处理。
+Output：对于每组输入数据，输出一行a,b和c，分别表示给定的数据中负数、零和正数的个数。
+示例：
+6 0 1 2 3 -1 0
+5 1 2 3 4 0.5
+0 
+-----
+1 2 3
+0 0 5
+解题思路：
+1.输入整数n，for循环，输入n个实数。若输入的n=0，输入结束。
+2.用a，b，c来统计n个数据中负数、零和正数的个数
+一遍AC
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	float m;
+	while(cin>>n){
+		int a=0,b=0,c=0;
+		if(n==0){
+			return 1;
+		}else{
+			for(int i=0;i<n;i++){
+				cin>>m;
+				if(m>0){
+					c++;
+				}else if(m<0){
+					a++;					
+				}else{
+					b++;
+				}
+			}
+			cout<<a<<" "<<b<<" "<<c<<endl;
+		}
+		
+	}
+	return 0;
+} 
+
+题号：2009
+求数列的和
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2009
+题目：数列的定义如下：数列的第一项为n，以后各项为前一项的平方根，求数列的前m项的和。
+Input：输入数据有多组，每组占一行，由两个整数n（n<10000）和m(m<1000)组成，n和m的含义如前所述。
+Output：对于每组输入数据，输出该数列的和，每个测试实例占一行，要求精度保留2位小数。
+示例：
+81 4
+2 2
+-----
+94.73
+3.41
+解题思路：
+1.n<10000,m<1000可以将输入数据n,m定义为int
+2.for循环计算前m项的和，将n定为double型，为了提高精度，需要更新n=sqrt(n)
+2.结果：double，保留两位小数.2lf
+提交代码一遍AC
+AC CODE
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main(){
+	int m,i;
+	double n;
+	while(cin>>n>>m){ 
+		double sum=0.0;
+	    for(i=0;i<m;i++){
+	    	sum+=n;
+	    	n=sqrt(n);
+	    	
+		}
+	printf("%.2lf\n",sum);
+	} 
+	return 0;
+}
+2018/7/20
+题号：2010
+水仙花数
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2010
+题目：春天是鲜花的季节，水仙花就是其中最迷人的代表，数学上有个水仙花数，他是这样定义的：
+“水仙花数”是指一个三位数，它的各位数字的立方和等于其本身，比如：153=1^3+5^3+3^3。
+现在要求输出所有在m和n范围内的水仙花数。
+Input：输入数据有多组，每组占一行，包括两个整数m和n（100<=m<=n<=999）。
+Output：对于每个测试实例，要求输出所有在给定范围内的水仙花数，就是说，输出的水仙花数必须大于等于m,并且小于等于n，如果有多个，则要求从小到大排列在一行内输出，之间用一个空格隔开;
+如果给定的范围内不存在水仙花数，则输出no;
+每个测试实例的输出占一行。
+示例：
+100 120
+300 380
+————
+no
+370 371
+解题思路：
+1.数据多组，包括M,N，因为m，n的取值范围为100<=m<=n<=999，可定义为int，输入m，n后判断其大小，保证m<n
+2.for循环m到n,判断是否为水仙花数，若是则输出，用空格隔开，若在m到n不存在水仙花数，则输出no
+3.判断一个三位数是否为水仙花数，判断标准为：它的各位数字的立方和等于其本身
+第一遍提交：Presentation Error
+查看代码发现自己的多输出了空格,调试了好几遍才符合要求。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+    int m,n,i,tem=0,q;
+    int a[100]={0};
+    while(cin>>m>>n){
+       if(m>n){
+           tem=m;
+           m=n;
+           n=tem;
+       }
+       int g=0,s=0,b=0,value=0,j=0;
+       for(i=m;i<=n;i++){
+          b=i/100;
+          s=i/10%10;
+          g=i%10;
+          value=b*b*b+s*s*s+g*g*g;
+          if(i==value){
+          	 a[j]=value;
+             j++;
+          }
+	   }
+	    if(!j){
+	    	cout<<"no"<<endl; 
+		}else{          
+       for(q=0;q<j;q++){ 
+		    cout<<a[q];  
+           	if(q<j-1){
+		      printf(" ");
+	       }else{
+	        	printf("\n");
+	        }
+	      }			
+       }
+    }
+    
+    return 0;    
+}
+体会：做事不能一心二用
+
+2018/7/21
+题号：2011
+多项式求和
+题目：多项式的描述如下：
+1 - 1/2 + 1/3 - 1/4 + 1/5 - 1/6 + ...
+现在请你求出该多项式的前n项的和。
+Input：输入数据由2行组成，首先是一个正整数m（m<100），表示测试实例的个数，第二行包含m个正整数，对于每一个整数
+(不妨设为n,n<1000），求该多项式的前n项的和。
+Output：对于每个测试实例n，要求输出多项式前n项的和。每个测试实例的输出占一行，结果保留2位小数。
+示例：
+2
+1 2
+-----
+1.00
+0.50
+解题思路：
+1.输入m，循环m次，输入m次示例n
+2.for循环1~n，计算多项式的和
+3.用double存储结果result
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int m,n,i,j;
+	cin>>m;
+	for(i=0;i<m;i++){
+		cin>>n;
+		double result=0.0;
+		for(j=1;j<=n;j++){
+			if(j%2==1){
+				result=result+1.0*1/j;
+			}else{
+				result=result-1.0*1/j;
+			}
+			
+		}
+		printf("%.2lf\n",result);
+	}
+	return 0;
+}
+2018/7/22
+题号：2012
+素数判定
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2012
+题目：对于表达式n^2+n+41，当n在（x,y）范围内取整数值时（包括x,y）(-39<=x<y<=50)，判定该表达式的值是否都为素数。
+Input：输入数据有多组，每组占一行，由两个整数x，y组成，当x=0,y=0时，表示输入结束，该行不做处理。
+Output：对于每个给定范围内的取值，如果表达式的值都为素数，则输出"OK",否则请输出“Sorry”,每组输出占一行。
+示例：
+0 1
+0 0
+-----
+OK
+解题思路：
+1.计算表达式n^2+n+41在范围内取值的值
+2.判断一个数是否为素数
+3.判断表达式的值是否为素数，为素数输出OK，否则输出Sorry
+示例过了，提交代码Wrong answer。
+查找原因：发现判断素数写错了。
+AC CODE
+#include<iostream>
+#include<math.h> 
+using namespace std;
+int main() 
+{ 
+    int x,y,n,i,j,k,s; 
+    while(cin>>x>>y) 
+    {    
+        int p=0;
+        if(x==0&&y==0) break; 
+        if(x>y) 
+        { 
+           int t=x; 
+           x=y; 
+           y=t; 
+         } 
+     for(n=x;n<=y;n++) 
+     { 
+      s=n*n+n+41; 
+      k=sqrt((double)s);
+      for(j=2;j<=k;j++)
+       if(s%j==0)  
+        { 
+         p=1; 
+         break; 
+        } 
+       if(p)break; 
+     } 
+  if(p) printf("Sorry\n"); 
+  else printf("OK\n");
+ } 
+ return 0; 
+}
+2018/7/23
+题号：2013
+蟠桃记
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2013
+题目：喜欢西游记的同学肯定都知道悟空偷吃蟠桃的故事，你们一定都觉得这猴子太闹腾了，其实你们是有所不知：悟空是在研究一个数学问题！
+什么问题？他研究的问题是蟠桃一共有多少个！
+不过，到最后，他还是没能解决这个难题，呵呵^-^
+当时的情况是这样的：
+第一天悟空吃掉桃子总数一半多一个，第二天又将剩下的桃子吃掉一半多一个，以后每天吃掉前一天剩下的一半多一个，到第n天准备吃的时候
+只剩下一个桃子。聪明的你，请帮悟空算一下，他第一天开始吃的时候桃子一共有多少个呢？
+Input：输入数据有多组，每组占一行，包含一个正整数n（1<n<30），表示只剩下一个桃子的时候是在第n天发生的。
+Output：对于每组输入数据，输出第一天开始吃的时候桃子的总数，每个测试实例占一行。
+示例：
+2
+4
+-----
+4
+22
+解题思路：
+1.根据题意：若n天只剩下一个，则n-1天则剩下4个，n-2天剩下10个，n-3天剩下22个。
+2.建立数学模型，n-1天桃子总数=（第n天剩下的个数+1）*2
+3.编程：多组案例，每组案例输入n，1<n<30，根据数学模型计算第一天吃的桃子。
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		int result=1;
+		for(int i=2;i<=n;i++){
+			result=(result+1)*2;
+		}
+		cout<<result<<endl;
+	}
+	return 0;
+}
+体会：有些题目如果你使用好的数学模型就很快且有效的解决问题了。
+
+2018/7/24
+题号：2014
+青年歌手大奖赛_评委会打分
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2014
+题目：青年歌手大奖赛中，评委会给参赛选手打分。选手得分规则为去掉一个最高分和一个最低分，然后计算平均得分，请编程输出某选手的得分。
+Input：输入数据有多组，每组占一行，每行的第一个数是n(2<n<=100)，表示评委的人数，然后是n个评委的打分。
+Output：对于每组输入数据，输出选手的得分，结果保留2位小数，每组输出占一行。
+示例：
+3 99 98 97
+4 100 99 98 97
+---------------
+98.00
+98.50
+解题思路：
+1.输入数据多组，每组根据输入的数n，再输入n个数，n个数用数组存储。
+2.用冒泡排序对n个数进行排序
+3.计算分数，去除数组的第一个数和最后一个数，其余的数相加得总分，然后计算平均得分=总分/(n-2)。
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	int m[101];
+	while(cin>>n){
+        double grade=0.0;
+		for(int i=0;i<n;i++){
+			cin>>m[i];
+		}
+		for(int i=0;i<n;i++){
+			for(int j=0;j<n-1-i;j++){
+				if(m[j]<m[j+1]){
+					int temp=m[j+1];
+					m[j+1]=m[j];
+					m[j]=temp;
+				}
+			}
+		}
+		for(int j=1;j<n-1;j++){
+			grade+=m[j];
+		}
+		printf("%.2lf\n",grade/(n-2));
+		
+	
+		
+	}
+	return 0;
+}
+
+2018/7/25
+题号：2015
+偶数求和
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2015
+题目：有一个长度为n(n<=100)的数列，该数列定义为从2开始的递增有序偶数，现在要求你按照顺序每m个数求出一个平均值，如果最后不足m个
+，则以实际数量求平均值。编程输出该平均值序列。
+Input：输入数据有多组，每组占一行，包含两个正整数n和m，n和m的含义如上所述。
+Output：对于每组输入数据，输出一个平均值序列，每组输出占一行。
+示例：
+3 2
+4 2
+-----
+3 6
+3 7
+解题思路：
+1.数据多组，输入只占一行，输入int型n，m
+2.根据n的大小，得到2的递增有序偶数数列，每m个数算一下平均值
+3.根据要求输出数据。
+提交代码wrong answer。
+查找原因。
+1、没有仔细的分情况讨论1.n正好是m的倍数；2.n不是m的倍数
+2、不同情况输出不一样
+这道题花费94min总算AC了。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n,m;
+	while(cin>>n>>m){
+		int tem,s=0;
+		int k=0,p=0;
+		int res=0;
+		int result[101]={0};
+		if(n%m==0){	
+			for(int i=0;i<n/m;i++){
+			   for(int j=0;j<m;j++){
+			        s=2*(i*m);				
+					tem=2*(j+1)+s;
+					res=0;
+					res+=tem;
+					result[k]+=res;
+					//cout<<"1:reslut="<<result[k]<<endl;
+			   }
+			   	++k;
+		    	result[k]=0;
+			}
+			for(int i=0;i<k;i++){
+			cout<<result[i]/m;
+			if(i<k-1) cout<<" ";
+			else cout<<endl;
+		  }
+			
+		}else{
+			for(int i=0;i<n/m+1;i++){
+			     for(int j=0;j<m;j++){
+			     	int t=n-i*m;
+					 p=t;
+					if(t<m){
+					     res=0;
+					     while(t){
+					     	 s=2*(i*m);	
+						     tem=0;			
+					        tem=2*(j+1)+s;
+					     	res=tem+res;
+					     	t--;
+						 }
+						 result[k]=res/p;
+						// cout<<result[k]<<endl;
+						// cout<<"2:reslut="<<result[k]<<endl;
+						break;
+					     
+				    }else{
+				         s=2*(i*m);				
+					     tem=2*(j+1)+s;
+					     res=0;
+					     res+=tem;
+					     result[k]+=res;
+					     //cout<<"3:reslut="<<result[k]<<endl;
+			     	}
+			        
+		    	}
+		   	++k;
+			result[k]=0;
+			}
+			for(int i=0;i<k;i++){
+			if(i<k-1) {
+				cout<<result[i]/m<<" ";
+			}
+			else {
+				cout<<result[i]/p<<endl;
+			}
+	    }
+	}	 
+			
+	}
+	return 0;
+}
+
+2018/7/26
+题号：2016
+数据的交换输出
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2016
+题目：输入n(n<100)个数，找出其中最小的数，将它与最前面的数交换后输出这些数。
+Input：输入数据有多组，每组占一行，每行的开始是一个整数n，表示这个测试实例的数值的个数，跟着就是n个整数。n=0表示输入的结束，不做处理。
+Output：对于每组输入数据，输出交换后的数列，每组输出占一行。
+示例：
+4 2 1 3 4
+5 5 4 3 2 1
+0
+------
+1 2 3 4
+1 4 3 2 5
+解题思路：
+1.数据多组，输入n，当输入0结束。
+2.用数组存储n个数，然后找出数组中最小的数以及记录该数在数组中的位置，让它与第一个数交换。
+3.输出交换后数组的数。
+提交代码一遍AC.
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	int m[100];
+	while(cin>>n){
+		if(n==0) break;
+		for(int i=0;i<n;i++){
+			cin>>m[i];
+		}
+		int temp=10000;
+		int flag=0;
+		for(int j=0;j<n;j++){			
+			if(m[j]<temp){
+				temp=m[j];
+				flag=j;	
+			}
+		}
+	    temp=m[0];
+	    m[0]=m[flag];
+	    m[flag]=temp;
+	for(int i=0;i<n;i++){
+		cout<<m[i];
+		if(i<n-1) cout<<" ";
+		else cout<<endl;
+     	}
+   }  
+   return 0;
+   
+}
+
+2018/7/27
+题号：2017
+字符串统计
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2017
+题目：对于给定的一个字符串，统计其中数字字符出现的次数。
+Input：输入数据有多行，第一行是一个整数n，表示测试实例的个数，后面跟着n行，每行包括一个由字母和数字组成的字符串。
+Output：对于每个测试实例，输出该串中数值的个数，每个输出占一行。
+示例：
+2
+asdfasdf123123asdfasdf
+asdf111111111asdfasdfasdf
+----------------------------
+6
+9
+解题思路：
+1.输入n，给出n个字符串
+2.遍历字符串，然后字符串中字符大小在0~9范围内字符的个数。
+3.输出该个数。
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char str[1001];
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++){
+		cin>>str;
+	int len=0,k=0;
+	len=strlen(str);
+	for(int j=0;j<len;j++){
+		if(str[j]>='0'&&str[j]<='9'){
+			++k;
+			}
+	}
+		cout<<k<<endl;
+	}
+	return 0;
+}
+
+题号：2018
+母牛的故事
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2018
+题目：有一头母牛，它每年年初生一头小母牛。每头小母牛从第四个年头开始，每年年初也生一头小母牛。请编程实现在第n年的时候，共有多少头母牛？
+Input：输入数据由多个测试实例组成，每个测试实例占一行，包括一个整数n(0<n<55)，n的含义如题目中描述。
+n=0表示输入数据的结束，不做处理。
+Output：对于每个测试实例，输出在第n年的时候母牛的数量。
+每个输出占一行。
+示例：
+2
+4
+5
+0
+----
+2
+4
+6
+解题思路：
+1.数据多组，当输入0结束。
+2.根据题意，第一年为1头母牛，第2年为2头，第三年为3头，第4年为4头，第5年为6头，第6年为9头，第7年为13头，第8年为18头，第9年为24头。
+3.建立数学模型：1~4年都递增1,第5年开始每年递增n-3头。
+示例过了，提交代码Wrong answer。
+查找原因，应该是因为自己的数学模型弄错了。我反复读题读了几遍，不知道自己哪里想错了。
+于是寻求度娘的帮助，找到别人的解题，链接如：https://blog.csdn.net/tigerisland45/article/details/51772927
+发现确实是自己的数学模型弄错了，我开始的解题思路从第8年起就错了，第八年应该有19头，第9年有28头，第10年41头，因为没有思考到第二次生的小母牛从四个年头也可以生
+小母牛。
+数学模型如下：
+函数递推式：
+f(n)=n        n<=4
+f(n)=f(n-1) + f(n-3) n>4
+于是可写一个简单的递归函数来解决。
+提交AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int cow(int n){
+	if(n<=4) return n;
+	else return cow(n-1)+cow(n-3);
+}
+int main(){
+	int n;
+	while(cin>>n){
+	  if(n==0) break;
+	  cout<<cow(n)<<endl;
+	}
+	return 0;
+}
+
+2018/7/28
+题号：2019
+数列有序!
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2019
+题目：有n(n<=100)个整数，已经按照从小到大顺序排列好，现在另外给一个整数x，请将该数插入到序列中，并使新的序列仍然有序。
+Input：输入数据包含多个测试实例，每组数据由两行组成，第一行是n和m，第二行是已经有序的n个数的数列。n和m同时为0标示输入数据的结束，本行不做处理。
+Output：对于每个测试实例，输出插入新的元素后的数列。
+示例：
+3 3
+1 2 4
+0 0
+----
+1 2 3 4
+解题思路：
+1.输入n个有序数，用数组存储，插入m；
+2.遍历数组，找出第一个比m大的数，记录其下标
+3.从该下标开始，将数组整体后移，之后将m插入下标位置
+4.输出得到的新序列。
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n,m;
+	int a[101];
+	while(cin>>n>>m){
+		if(n==0&&m==0) break;
+		for(int i=0;i<n;i++)
+			cin>>a[i];
+		int k=0;
+		for(int j=0;j<n;j++){
+			if(m<=a[j]){
+				k=j;
+				break;			
+			}		
+		}
+		for(int i=n;i>k;i--)
+			a[i]=a[i-1];
+		a[k]=m;
+		cout<<a[0];
+		for(int i=1;i<=n;i++)
+            cout<<" "<<a[i];
+        cout<<endl;	
+	}
+	return 0;
+}
+体会：本科期间刷过这样的题，知道思路，代码写的不够熟练，耗费了一定时间，所以代码得经常写，熟能生巧。
+
+
+2018/7/29
+题号：2020
+绝对值排序 
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2020
+题目：输入n(n<=100)个整数，按照绝对值从大到小排序后输出。题目保证对于每一个测试实例，所有的数的绝对值都不相等。
+Input：输入数据有多组，每组占一行，每行的第一个数字为n,接着是n个整数，n=0表示输入数据的结束，不做处理。
+Output：对于每个测试实例，输出排序后的结果，两个数之间用一个空格隔开。每个测试实例占一行。
+示例：
+3 3 -4 2
+4 0 1 2 -3
+0
+------
+-4 3 2
+-3 2 1 0
+解题思路：
+1.输入n，若n=0,则输入数据结束，再输入n个整数，保存在数组中
+2.记录数组中<0的数，然后将数组按照绝对值大小进行排序
+3.按照绝对值大小从大到小输出，将数组中<0的数，输出时加“-”。
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main()
+{
+	int n;
+	int a[101],b[100];
+	while(cin>>n){
+	   if(n==0) break;
+	   int k=0;
+	   for(int i=0;i<n;i++){
+	   	     cin>>a[i];
+	   	     if(a[i]<0)
+	   	     {
+	   	     	b[k]=a[i];
+	   	     	a[i]=(-1)*a[i];
+	   	     	++k;
+			}
+	   }	   	   
+	   for(int i=0;i<n;i++){
+	   	    for(int j=0;j<n-1-i;j++){
+	   	    	if(a[j]<a[j+1]){
+	   	    		int tem=a[j];
+	   	    		a[j]=a[j+1];
+	   	    		a[j+1]=tem;
+				   }
+			   }
+	   }
+	   for(int i=0;i<k;i++){
+	   	for(int j=0;j<n;j++){
+	   		if((-1)*b[i]==a[j])
+	   			 a[j]=b[i];
+		   }
+	   }
+	   cout<<a[0];
+	   for(int i=1;i<n;i++)
+	   	    cout<<" "<<a[i];
+	   cout<<endl;	   	 	   
+	}
+	return 0;
+}
+
+2018/7/30
+题号：2021
+发工资咯：）
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2021
+题目：作为杭电的老师，最盼望的日子就是每月的8号了，因为这一天是发工资的日子，养家糊口就靠它了，呵呵
+但是对于学校财务处的工作人员来说，这一天则是很忙碌的一天，财务处的小胡老师最近就在考虑一个问题：如果每个老师的工资额都知道，最少需要准备多少张人民币，才能在给
+每位老师发工资的时候都不用老师找零呢？这里假设老师的工资都是正整数，单位元，人民币一共有100元、50元、10元、5元、2元和1元六种。
+Input：输入数据包含多个测试实例，每个测试实例的第一行是一个整数n（n<100），表示老师的人数，然后是n个老师的工资。
+n=0表示输入的结束，不做处理。
+Output：对于每个测试实例输出一个整数x,表示至少需要准备的人民币张数。每个输出占一行。
+示例：
+3
+1 2 3
+0
+------
+4
+
+解题思路：
+1. 输入n,若n=0，则结束，n不为0时，输入n个数；
+2.利用%运算和/运算来计算需要的纸币张数
+一遍提交直接AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n,salary;
+	while(cin>>n){
+		if(n==0) break;
+		int count=0;
+		for(int i=0;i<n;i++){
+		   cin>>salary;
+	       count=count+salary/100;
+	       salary=salary%100;
+	    if(salary!=0){
+	    	count+=salary/50;
+	    	salary=salary%50;
+	    	count+=salary/10;
+	    	salary=salary%10;
+	    	if(salary!=0){
+	    		count+=salary/5+salary%5/2+salary%5%2/1;
+			}	    	
+		}		
+	 }
+	  cout<<count<<endl;
+	}
+	return 0;
+}
+
+
+2018/7/31
+题号：2022
+海选女主角
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2022
+题目：potato老师虽然很喜欢教书，但是迫于生活压力，不得不想办法在业余时间挣点外快以养家糊口。
+“做什么比较挣钱呢？筛沙子没力气，看大门又不够帅...”potato老师很是无奈。
+“张艺谋比你还难看，现在多有钱呀，听说还要导演奥运开幕式呢！你为什么不去娱乐圈发展呢？”lwg在一旁出主意。
+嗯，也是，为了生存，就委屈点到娱乐圈混混吧，马上就拍一部激光电影《杭电记忆——回来我的爱》。
+说干就干，马上海选女主角（和老谋子学的，此举可以吸引媒体的眼球，呵呵），并且特别规定，演员必须具有ac的基本功，否则直接out!
+由于策划师风之鱼（大师级水王）宣传到位，来应聘的MM很多，当然包括nit的蛋糕妹妹等呼声很高的美女，就连zjut的jqw都男扮女装来应聘（还好被安全顾问hdu_Bin-Laden认出，
+给轰走了），看来娱乐圈比acm还吸引人哪...
+面试那天，刚好来了m*n个MM，站成一个m*n的队列，副导演Fe(OH)2为每个MM打了分数，分数都是32位有符号整数。
+一开始我很纳闷：分数怎么还有负的？Fe(OH)2解释说，根据选拔规则，头发染成黄色、化妆太浓、穿的太少等等都要扣分数的，扣的多了就可能是负分了，当然，如果发现话语中
+夹有日语，就直接给-2147483648分了。
+分数送上来了，是我做决定的时候了，我的一个选拔原则是，要选一个面试分数绝对值（必须还是32位整数）最大的MM。
+特别说明：如果不幸选中一个负分的MM,也没关系，因为我觉得，如果不能吸引你，那要想法恶心你。
+Input：输入数据有多组，每组的第一行是两个整数m和n，表示应聘MM的总共的行列数，然后是m行整数，每行有n个，m和n的定义见题目的描述。
+Output：对于每组输入数据，输出三个整数x,y和s，分别表示选中的MM的行号、列号和分数。
+note:行号和列号从一开始，如果有多个MM的分数绝对值一样，那么输出排在最前面的一个（即行号最小的那个，如果行号相同则取列号最小的那个）。 
+示例：
+2 3
+1 4 -3
+-7 3 0
+=======
+2 1 -7
+解题思路：
+1.定义一个二位数组,存储M*N个MM的分数,负分最大的是-2147483648分，超过10^9,类型得用long long int。
+2.遍历数组，找出面试分数绝对值最大的MM，并记录其行和列号。
+3.按要求输出MM的行号，列号，分数。
+做题之前查了一下c++的int的取值范围-2147483648～2147483647，mm分数在int的范围内，所以可以用int型定义数组。
+示例通过后，提交Wrong answer.
+查找自己出错原因。没有找到。
+wrong answer code
+#include<iostream>
+using namespace std;
+int main(){
+	int m,n;
+	while(cin>>m>>n){
+	int a[m][n];
+	long long int result[m+n];
+	int flag1[m],flag2[n],flag3[m+n],flag4[m],flag5[n],flag6[m+n];
+	int k=0,flag=0,zhen=0;
+	for(int i=0;i<m;i++){
+		for(int j=0;j<n;j++){
+		    cin>>a[i][j];
+		    if(a[i][j]<0){
+		    	result[k]=(-1)*a[i][j];
+		    	flag1[flag]=i+1;
+		    	flag2[flag]=j+1;
+		    	flag3[flag]=k;
+		    	++flag;
+			} else{
+				result[k]=a[i][j];
+				flag4[zhen]=i+1;
+		    	flag5[zhen]=j+1;
+		    	flag6[zhen]=k;
+		    	++zhen;
+			}
+			++k;
+		}
+	}
+	long long int temp=0;
+	int value=0;
+	for(int i=0;i<k;i++){
+		if(result[i]>temp){			
+			temp=result[i];
+		    value=i;									
+		}		
+	}
+	for(int i=0;i<flag||i<zhen;i++){
+		if(flag3[i]==value){
+			cout<<flag1[i]<<" "<<flag2[i]<<" "<<(-1)*temp<<endl; 
+			break;
+	   }
+	   if(flag6[i]==value){
+	   		cout<<flag4[i]<<" "<<flag5[i]<<" "<<temp<<endl; 
+			break;
+	   }
+	}
+	}
+	return 0;
+}
+开始没有想到用abs，后用abs直接来求绝对值解决问题。
+提交代码AC。
+AC CODE:
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main()
+{
+	int n,m,k,i,j;
+	while (cin>>n>>m) 
+	{
+		int x = 0,y = 0,result;
+		for (i = 0; i < n; i++) 
+			for(j = 0; j < m; j++)
+			{
+				cin>>k;
+				if(i == 0 && j == 0)
+				result = k;
+				if (abs(result) < abs(k)) {
+					int temp = k;
+					k = result;
+					result = temp;
+					x = i+1;
+					y = j+1;
+				}
+			}
+		cout<<x<<" "<<y<<" "<<result<<endl;
+	}
+	return 0;
+}
+
+2018/8/1
+求平均成绩
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2023
+题目：假设一个班有n(n<=50)个学生，每人考m(m<=5)门课，求每个学生的平均成绩和每门课的平均成绩，并输出各科成绩均大于等于平均成绩的学生数量。
+Input：输入数据有多个测试实例，每个测试实例的第一行包括两个整数n和m，分别表示学生数和课程数。然后是n行数据，每行包括m个整数（即：考试分数）。
+Output：对于每个测试实例，输出3行数据，第一行包含n个数据，表示n个学生的平均成绩，结果保留两位小数；第二行包含m个数据，表示m门课的平均成绩，结果保留两位小数；
+第三行是一个整数，表示该班级中各科成绩均大于等于平均成绩的学生数量。
+每个测试实例后面跟一个空行。
+示例：
+2 2
+5 10
+10 20
+-------
+7.50 15.00
+7.50 15.00
+1
+解题思路：
+1.定义一个二维数组存储n个人的m科成绩；
+2.遍历数组的行，求出每个学生的平均成绩；遍历数组的列，求出每门科成绩的平均成绩，再计数每个学生的各科成绩有没有都大于平均成绩的学生；
+3.按照题目要求输出。
+第一遍提交wrong anwser
+开始不知道原因，就放到了第二天去弄，一下子就找到了原因，我在统计每科成绩的平均成绩那里出错了，没想到这一题耗费了我这么多时间。
+AC CODE
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int n,m,i,j;
+    double a[51][6];
+    double b[6];
+    while(cin>>n>>m) {
+       double aveStu=0,aveSub=0;
+       int count=0,flag=0;
+       for(i=0;i<n;i++) {
+           for(j=0;j<m;j++){
+               cin>>a[i][j];
+           }
+        }
+       for(i=0;i<n-1;i++){
+         for(j=0;j<m;j++) {
+               aveStu+=a[i][j];
+             }
+          aveStu=aveStu/(double)m;
+          printf("%0.2lf ",aveStu);
+          aveStu=0;
+       }
+  
+       for(j=0;j<m;j++) {
+          aveStu+=a[n-1][j];
+		  }
+        aveStu=aveStu/(double)m;
+        printf("%0.2lf\n",aveStu);
+       for(j=0;j<m-1;j++) {
+           for(i=0;i<n;i++){
+             aveSub+=a[i][j];
+       }
+         b[j]=aveSub/(double)n;
+         printf("%0.2lf ",b[j]);
+         aveSub=0;
+       }
+       for(i=0;i<n;i++){
+           aveSub+=a[i][m-1];
+       }
+       b[m-1]=aveSub/(double)n;
+       printf("%0.2lf\n",b[m-1]);
+       for(i=0;i<n;i++) {
+           for(j=0;j<m;j++){
+             if(a[i][j]>=b[j])
+                flag++;
+           }
+           if(flag==m)
+             count++;
+           flag=0;
+		   }
+     printf("%d\n\n",count);
+     }
+ return 0;
+}
+
+2018/8/2
+Easy h-index
+题目链接：http://acm.hdu.edu.cn/contests/contest_showproblem.php?pid=1001&cid=798
+题目：比赛题目：
+http://acm.hdu.edu.cn/downloads/2018ccpc_hn.pdf
+
+The h-index of an author is the largest h where he has at least h papers with citations not less than h.
+
+Bobo has published many papers.
+Given a0,a1,a2,…,an which means Bobo has published ai papers with citations exactly i, find the h-index of Bobo.
+Input：The input consists of several test cases and is terminated by end-of-file.
+
+The first line of each test case contains an integer n.
+The second line contains (n+1) integers a0,a1,…,an.
+Output：For each test case, print an integer which denotes the result.
+
+## Constraint
+
+* 1≤n≤2*10^5
+* 0≤ai≤10^9
+* The sum of n does not exceed 250,000.
+
+Sample ：
+1
+1 2
+2
+1 2 3
+3
+0 0 0 0
+---------
+1
+2
+0
+解题思路：
+1.数据多组，int n，然后输入n+1个数，将n+1个数保存在数组中；
+2.找出数组中最大的数，并记录其数组下标。
+3.输出其下标
+这题提交始终错误，不知道自己哪里错了，应该是题意理解错误。之后再去解决。
+wrong anser的CODE:
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		int a[n];
+		for(int i=0;i<=n;i++){
+			cin>>a[i];
+		}
+		int temp=0,k=0;;
+		for(int i=0;i<=n;i++){
+			if(a[i]>temp){
+				temp=a[i];
+				k=i;
+			}	   
+		}
+		cout<<k<<endl;
+	}
+	return 0;
+}
+2018/8/3
+题号：2024
+C语言合法标识符
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2024
+题目：输入一个字符串，判断其是否是C的合法标识符。
+Input：输入数据包含多个测试实例，数据的第一行是一个整数n,表示测试实例的个数，然后是n行输入数据，每行是一个长度不超过50的字符串。
+Output：对于每组输入数据，输出一行。如果输入数据是C的合法标识符，则输出"yes"，否则，输出“no”。
+示例：
+3
+12ajf
+fi8x_a
+ff  ai_2
+---------
+no
+yes
+no
+解题思路：
+本题主要考字符串的操作（gets可以接收空格；而scanf，cout遇到空格、回车和Tab键都会认为输入结束，它不能接收空格。）
+1.多个测试示例，输入n，（输入n后需要getchar();)再输入n个字符串
+2.遍历字符串，判断字符串的首字母是不是数字，字符串是否含有非法字符（标识符只能由字母、数字和下划线三类字符组成），是不是为关键字；
+(判断方法：先判断字符串首字符是不是数字，然后再遍历字符串是否再字母，数字，下划线范围内，是否为关键字不知道怎么去做)
+3.若为c语言的合法标识符，则输入yes，否则输出no
+示例通过后，一遍提交AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	char str[55];
+	while(cin>>n){
+		getchar();
+		for(int i=0;i<n;i++){
+		gets(str);
+		if(str[0]>='0'&&str[0]<='9'){
+			cout<<"no"<<endl;
+			continue;
+		}		 
+		int len=0;
+		len=strlen(str);
+		int count=0;
+		for(int j=0;j<len;j++){
+			if((str[j]>='0'&&str[j]<='9')||(str[j]>='a'&&str[j]<='z')||(str[j]>='A'&&str[j]<='Z')||(str[j]=='_'))
+			  ++count;
+		}
+		if(count==len){
+			cout<<"yes"<<endl;
+		}else{
+			cout<<"no"<<endl;
+		}
+		}
+	}
+	return 0;
+}
+
+2018/8/4
+题号：2025
+查找最大元素
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2025
+题目：对于输入的每个字符串，查找其中的最大字母，在该字母后面插入字符串“(max)”。
+Input：输入数据包括多个测试实例，每个实例由一行长度不超过100的字符串组成，字符串仅由大小写字母构成。
+Output：对于每个测试实例输出一行字符串，输出的结果是插入字符串“(max)”后的结果，如果存在多个最大的字母，就在每一个最大字母后面都插入"(max)"。
+示例：
+abcdefgfedcba
+xxxxx
+---------
+abcdefg(max)fedcba
+x(max)x(max)x(max)x(max)x(max)
+解题思路：
+1.多个实例，字符串长度不超过100
+2.找出最大的字母
+3.遍历字符串，当遇到最大的字母是输出一次“(max)”
+一遍提交AC。
+AC CODE:
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char str[110];
+	while(gets(str)){
+		int len=strlen(str);
+		char tem='A';
+		for(int i=0;i<len;i++){
+			if(str[i]>tem){
+				tem=str[i];
+			}
+		}
+		for(int i=0;i<len;i++){
+			cout<<str[i];
+			if(str[i]==tem){
+				cout<<"(max)";
+			}
+		}
+		cout<<endl; 
+	}
+	return 0;
+}
+ 
+2018/8/5
+题号：2026
+首字母变大写
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2026
+题目：输入一个英文句子，将每个单词的第一个字母改成大写字母。
+Input：输入数据包含多个测试实例，每个测试实例是一个长度不超过100的英文句子，占一行。
+Output：请输出按照要求改写后的英文句子。
+示例：
+i like acm
+i want to get an accepted
+--------------------------
+I Like Acm
+I Want To Get An Accepted
+解题思路：
+1.用gets输入英文句子
+2.遍历字符串，将字符串的第一个字母-32变为大写，之后遇见空格，就将空格后的下一个字母-32变成大写。
+提交AC.
+AC CODE:
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char str[110];
+	while(gets(str)){
+		str[0]=str[0]-32;
+		int len=strlen(str);
+		for(int i=0;i<len;i++){
+			if(str[i]==' '){
+				str[i+1]=str[i+1]-32;
+			}
+			cout<<str[i];
+		}
+		cout<<endl;
+	}
+	return 0;
+}
+
+2018/8/6
+题号：2027
+统计元音
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2027
+题目：统计每个元音字母在字符串中出现的次数
+Input：输入数据首先包括一个整数n，表示测试实例的个数，然后是n行长度不超过100的字符串。
+Output对于每个测试实例输出5行，格式如下：
+a:num1
+e:num2
+i:num3
+o:num4
+u:num5
+多个测试实例之间由一个空行隔开。
+
+请特别注意：最后一块输出后面没有空行：）
+示例：
+2
+aeiou
+my name is ignatius
+------------------
+a:1
+e:1
+i:1
+o:1
+u:1
+
+a:2
+e:1
+i:3
+o:0
+u:1
+解题思路：
+1.输入n，再输入n个字符串
+2.遍历字符串，用一个数组存储统计五个元音字母出现的个数。
+3.遍历该数组，输出结果。
+一遍AC.
+AC CODE:
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	char str[110];
+	char t[5];
+	strcpy(t,"aeiou");
+	cin>>n;
+	getchar();
+	while(n--){
+		gets(str);
+		int a[5];//a[0]存储a出现的个数，依次类推。 
+		memset(a,0,sizeof(a)); 
+		int len=strlen(str);
+		for(int i=0;i<len;i++){
+			if(str[i]=='a'){
+				a[0]++;
+			}else if(str[i]=='e'){
+				a[1]++;
+			}else if(str[i]=='i'){
+				a[2]++;
+			}else if(str[i]=='o'){
+				a[3]++;
+			}else if(str[i]=='u'){
+				a[4]++;
+			}
+		}
+		for(int i=0;i<5;i++){
+				cout<<t[i]<<":"<<a[i]<<endl;		
+		}
+		if(n>0) cout<<endl;
+	} 
+	return 0;
+	
+}
+
+2018/8/7
+题号：2028
+Lowest Common Multiple Plus
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2028
+题目：求n个数的最小公倍数。
+Input：输入包含多个测试实例，每个测试实例的开始是一个正整数n，然后是n个正整数。
+Output：为每组测试数据输出它们的最小公倍数，每个测试实例的输出占一行。你可以假设最后的输出是一个32位的整数。
+示例：
+2 4 6
+3 2 5 7
+-------
+12
+70
+解题思路：
+1.先用辗转相除法求出2个数的最大公约数，再求两个数的最小公倍数
+2.再求n个数的最小公倍数
+提交代码，显示Runtime Error(INTEGER_DIVIDE_BY_ZERO)。
+第二遍提交wrong answer。
+第三遍AC CODE
+#include<iostream>
+using namespace std;
+int gcd(int a,int b){
+	int temp;
+	if(a<b){
+		temp=a;
+		a=b;
+		b=temp;
+	}
+	if(a%b==0) return b;
+	else return gcd(b,a%b);
+}
+int lcm(int a,int b){
+	int c=a/gcd(a,b)*b;
+	return c;
+}
+int main(){
+	int n;
+	int a[101];
+	while(cin>>n){
+		int result=1;
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+		}
+		for(int i=0;i<n-1;i++){
+			result=lcm(a[i],a[i+1]);
+			a[i+1]=result;
+		}		
+		cout<<result<<endl;
+		
+	}
+	return 0;
+}
+有关这题写了一篇博客《c/c++语言求最大公约数、最小公倍数》：https://blog.csdn.net/huyr_123/article/details/81670972
+
+2018/8/8
+题号：2029
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2029
+题目：“回文串”是一个正读和反读都一样的字符串，比如“level”或者“noon”等等就是回文串。请写一个程序判断读入的字符串是否是“回文”。
+Input：输入包含多个测试实例，输入数据的第一行是一个正整数n,表示测试实例的个数，后面紧跟着是n个字符串。
+Output：如果一个字符串是回文串，则输出"yes",否则输出"no".
+示例：
+4
+level
+abcde
+noon
+haha
+------
+yes
+no
+yes
+no
+解题思路：
+1.输入n，再输入n个字符串
+2.遍历字符串，首尾比较是否相等，首++尾--；
+3.若为回文串，则输出“yes”，否则输出“no”
+一遍提交AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	cin>>n;
+	char str[101];
+	for(int i=0;i<n;i++){
+		cin>>str;
+		int len=strlen(str);
+		int count=0;
+		int m=len/2;
+		for(int i=0;i<m;i++){
+			if(str[i]==str[len-1]){
+				count++;
+			}else{
+				cout<<"no"<<endl;
+				break;
+			}
+			--len;
+		}
+		if(count==m){
+			cout<<"yes"<<endl;
+		}
+	}
+	return 0;
+}
+ 
+2018/8/9
+题号：2030
+汉字统计
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2030
+题目：统计给定文本文件中汉字的个数。
+Input：输入文件首先包含一个整数n，表示测试实例的个数，然后是n段文本。
+Output：对于每一段文本，输出其中的汉字的个数，每个测试实例的输出占一行。
+[Hint:]从汉字机内码的特点考虑~
+示例：
+2
+WaHaHa! WaHaHa! 今年过节不说话要说只说普通话WaHaHa! WaHaHa!
+马上就要期末考试了Are you ready?
+-------------------------------
+14
+9
+解题思路：
+开始不知道汉字机内码的知识，寻求了帮助:http://blog.sina.com.cn/s/blog_ab20767501017ejv.html
+从该博客知道的知识点：一个汉字在字符串中是以两个负的字符形式存储，所以本题只要把字符串中负字符的个数找出来，再除以2 就OK了。
+汉字机内码在计算机的表达方式的描述是，使用二个字节，每个字节最高位一位为1。
+计算机中，补码第一位是符号位，1 表示为负数，所以汉字机内码的每个字节表示的十进制数都是负数。
+1.输入n，在输入n段本文，文本用字符数组存储
+2.遍历字符数组，对<0的字符进行计数，最后除以2。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	char str[200]; 
+	while(cin>>n){
+		getchar();
+	for(int i=0;i<n;i++){
+	    gets(str);
+	    int len=strlen(str);
+	    int count=0;
+	    for(int j=0;j<len;j++){
+	    	if(str[j]<0)
+	    	  count++;
+		}
+		cout<<count/2<<endl;		
+	 }
+   }
+	return 0;
+}
+
+题号：2031
+进制转换
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2031
+题目：输入一个十进制数N，将它转换成R进制数输出。
+Input：输入数据包含多个测试实例，每个测试实例包含两个整数N(32位整数)和R（2<=R<=16, R<>10）。
+Output：为每个测试实例输出转换后的数，每个输出占一行。如果R大于10，则对应的数字规则参考16进制（比如，10用A表示，等等）。
+示例：
+7 2
+23 12
+-4 3
+------
+111
+1B
+-11
+解题思路：
+1.输入n，r
+2.不断n=n/r，然后反序输出每次的余数
+3.输出大于9的数需要处理一下。x-10+‘A’
+一遍提交AC。
+AC CODE
+#include<iostream>
+#include<cmath>
+#include<cstring>
+using namespace std;
+void print(int a){
+	if(a<=9){
+		cout<<a;
+	}else{
+		printf("%c",a-10+'A'); 
+	}
+}
+void change(int n,int r){
+	if(n){
+		change(n/r,r);
+		print(n%r);
+	}
+} 
+int main(){
+	int n,r;
+	int a[30];
+	while(cin>>n>>r){
+	    if(n<0) {
+	    	cout<<"-";
+	    	 n=-1*n;
+		}
+
+	    change(n,r);
+		cout<<endl;
+	}
+	return 0;
+}
+
+2018/8/10
+题号：2032
+杨辉三角
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2032
+题目：还记得中学时候学过的杨辉三角吗？具体的定义这里不再描述，你可以参考以下的图形：
+1
+1 1
+1 2 1
+1 3 3 1
+1 4 6 4 1
+1 5 10 10 5 1
+Input：输入数据包含多个测试实例，每个测试实例的输入只包含一个正整数n（1<=n<=30），表示将要输出的杨辉三角的层数。
+Output：对应于每一个输入，请输出相应层数的杨辉三角，每一层的整数之间用一个空格隔开，每一个杨辉三角后面加一个空行。
+示例：
+2 3
+-----
+1
+1 1
+
+1
+1 1
+1 2 1
+解题思路：
+1.定义一个二维数组存储杨辉三角的值,并初始化。
+2.a[i][0]=1;,a[1][1]=0;a[i][j]=a[i-1]a[j-1]+a[i-1][j]（j>0）;
+3.输出相应层数的杨辉三角
+一遍提交AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		int a[31][31];
+		memset(a,0,sizeof(a));	
+		for(int i=0;i<n;i++)
+		  a[i][0]=1;
+		for(int i=1;i<n;i++){
+			for(int j=1;j<=i;j++){
+				a[i][j]=a[i-1][j-1]+a[i-1][j];
+			}
+		}
+		for(int i=0;i<n;i++){
+			for(int j=0;j<=i;j++){
+				if(j<=i-1){
+				printf("%d ",a[i][j]);
+			    }else{
+			    printf("%d\n",a[i][j]);	
+				}   
+			}
+			
+		}
+		printf("\n");
+		
+	} 
+	return 0;
+}
+
+
+2018/8/11
+题目：扔 n 个骰子，向上面的数字之和为 S。给定 Given n，请列出所有可能的 S 值及其相应的概率。
+示例：
+给定 n = 1，返回 [ [1, 0.17], [2, 0.17], [3, 0.17], [4, 0.17], [5, 0.17], [6, 0.17]]。
+解题思路：这题用到动态规划的思想。
+#include<iostream>
+#include<cmath>
+#include<string.h>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		int a[100][1000];//a[i][j]表示掷i个骰子，掷到j的次数。
+		memset(a,0,sizeof(a)); 
+		double result[100]; 
+		if(n==1){
+			for(int i=1;i<=6;i++)
+			   printf("%d  %.2lf\n",i,1.0/6);
+		}else{
+    	for(int i=1;i<=6;i++){
+    		a[1][i]=1;
+    		result[i]=1.0/6;
+		}
+		//a[2][2]=0;
+		for(int i=2;i<=n;i++){
+			for(int j=i;j<=6*n;j++){
+				for(int k=1;k<=6;k++){
+					if(j>k){
+					//printf("test1:%d %d\n",j,a[i][j]);
+					a[i][j]=a[i][j]+a[i-1][j-k];
+					//printf("test2:%d %d\n",j,a[i][j]);
+				   }
+				}
+			    //printf("%d\n",a[i][j]);
+				 result[j]=1.0*a[i][j]/(pow(6,n));
+			}
+		}
+		for(int j=n;j<=6*n;j++)
+			 printf("%d  %.6lf\n",j,result[j]);
+		
+	   }
+     	
+	}
+	return 0;
+	
+}
+做完这题，写了一篇博客《Dices Sum（骰子求和）》，博客链接为：https://blog.csdn.net/huyr_123/article/details/81590292
+ 
+2018/8/12
+题号：2033
+人见人爱A+B
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2033
+题目：HDOJ上面已经有10来道A+B的题目了，相信这些题目曾经是大家的最爱，希望今天的这个A+B能给大家带来好运，也希望这个题目能唤起大家对ACM曾经的热爱。
+这个题目的A和B不是简单的整数，而是两个时间，A和B 都是由3个整数组成，分别表示时分秒，比如，假设A为34 45 56，就表示A所表示的时间是34小时 45分钟 56秒。
+Input：输入数据有多行组成，首先是一个整数N，表示测试实例的个数，然后是N行数据，每行有6个整数AH,AM,AS,BH,BM,BS，分别表示时间A和B所对应的时分秒。题目保证所有的
+数据合法。
+Output：对于每个测试实例，输出A+B，每个输出结果也是由时分秒3部分组成，同时也要满足时间的规则（即：分和秒的取值范围在0~59），每个输出占一行，并且所有的部分都可
+以用32位整数表示。
+示例：
+2
+1 2 3 4 5 6
+34 45 56 12 23 34
+-------------------
+5 7 9
+47 9 30
+解题思路：
+1.输入n，再输入n个AH,AM,AS,BH,BM,BS
+2.as+bs>=60时，bm+am+1，否则就bm+am；
+3.bm+am>=60时，ah+bh+1,否则ah+bh；
+一遍提交AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	int ah,am,as,bh,bm,bs;
+	while(cin>>n){
+		for(int i=0;i<n;i++){
+		cin>>ah>>am>>as>>bh>>bm>>bs;
+		int cm=0,cs=0;
+		if(bs+as>=60){
+			cs=(bs+as)%60;
+			am=am+1;
+		}else{
+			cs=bs+as;
+		}
+		if(bm+am>=60){
+			cm=(am+bm)%60;
+			ah=ah+1;
+		}else{
+			cm=am+bm;
+		}
+		cout<<ah+bh<<" "<<cm<<" "<<cs<<endl;
+	}
+   }
+	return 0;
+}
+
+题号：2034
+人见人爱A-B
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2034
+题目：参加过上个月月赛的同学一定还记得其中的一个最简单的题目，就是{A}+{B}，那个题目求的是两个集合的并集，今天我们这个A-B求的是两个集合的差，就是做集合的减法运算。（当然，大家都知道集合的定义，就是同一个集合中不会有两个相同的元素，这里还是提醒大家一下）
+
+呵呵，很简单吧？
+Input：每组输入数据占1行,每行数据的开始是2个整数n(0<=n<=100)和m(0<=m<=100),分别表示集合A和集合B的元素个数，然后紧跟着n+m个元素，前面n个元素属于集合A，其余的属于集合B. 每个元素为不超出int范围的整数,元素之间有一个空格隔开.
+如果n=0并且m=0表示输入的结束，不做处理。
+Output：针对每组数据输出一行数据,表示A-B的结果,如果结果为空集合，则输出“NULL”,否则从小到大输出结果,为了简化问题，每个元素后面跟一个空格.
+示例：
+3 3 1 2 3 1 4 7
+3 7 2 5 8 2 3 4 5 6 7 8 
+0 0
+----------
+2 3 
+NULL
+读完题之后，我没有理解A-B的意思，因为我把样例的答案看错了。
+解题思路：
+1.主要考了集合的概念，集合中没有相同的元素
+2.A-B=A-(A∩B)；两个集合的差是属于A集合但不属于B集合的元素
+开始提交总是wrong anser。原因是我使用集合之后没有clear
+AC CODE
+#include<iostream>
+#include<set>
+using namespace std;
+int main(){
+	int n,m;
+	set<int> resultSet;
+	set<int>::iterator iter;
+	int a;
+	while(cin>>n>>m){
+		if(m==0&&n==0) break;
+		while(n--){
+			cin>>a;
+			resultSet.insert(a);
+		}
+		while(m--){
+			cin>>a;
+			iter=resultSet.find(a);
+			if(iter!=resultSet.end()){
+				resultSet.erase(iter);
+			}
+		}
+		if(resultSet.empty()){
+			cout<<"NULL"<<endl; 
+		}else{
+			for(iter=resultSet.begin();iter!=resultSet.end();iter++){
+				cout<<*iter<<" ";
+			}
+			cout<<endl; 
+			resultSet.clear();
+		}
+	}
+	return 0;
+}
+
+2018/8/13
+题号：2035
+人见人爱A^B
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2035
+题目：求A^B的最后三位数表示的整数。
+说明：A^B的含义是“A的B次方”
+Input：输入数据包含多个测试实例，每个实例占一行，由两个正整数A和B组成（1<=A,B<=10000），如果A=0, B=0，则表示输入数据的结束，不做处理。
+Output：对于每个测试实例，请输出A^B的最后三位表示的整数，每个输出占一行。
+示例：
+2 3
+12 6
+6789 10000
+0 0
+-----
+8
+984
+1
+解题思路：
+1、
+AC CODE
+#include<iostream>
+#include<stdlib.h>
+using namespace std;
+int main()
+{
+    int n,m,mul;
+    while(cin>>n>>m)
+    {
+    	if(!n&&!m) break;
+        mul=1;
+        while(m--)
+            mul=(mul*n)%1000;
+        cout<<mul<<endl;
+    }
+    return 0;
+}
+
+题号：2036
+改革春风吹满地
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2036
+题目：“ 改革春风吹满地,
+不会AC没关系;
+实在不行回老家，
+还有一亩三分地。
+谢谢!（乐队奏乐）”
+
+话说部分学生心态极好，每天就知道游戏，这次考试如此简单的题目，也是云里雾里，而且，还竟然来这么几句打油诗。
+好呀，老师的责任就是帮你解决问题，既然想种田，那就分你一块。
+这块田位于浙江省温州市苍南县灵溪镇林家铺子村，多边形形状的一块地，原本是linle 的，现在就准备送给你了。不过，任何事情都没有那么
+简单，你必须首先告诉我这块地到底有多少面积，如果回答正确才能真正得到这块地。
+发愁了吧？就是要让你知道，种地也是需要AC知识的！以后还是好好练吧...
+Input：输入数据包含多个测试实例，每个测试实例占一行，每行的开始是一个整数n(3<=n<=100)，它表示多边形的边数（当然也是顶点数），然
+后是按照逆时针顺序给出的n个顶点的坐标（x1, y1, x2, y2... xn, yn）,为了简化问题，这里的所有坐标都用整数表示。
+输入数据中所有的整数都在32位整数范围内，n=0表示数据的结束，不做处理。
+Output：对于每个测试实例，请输出对应的多边形面积，结果精确到小数点后一位小数。
+每个实例的输出占一行。
+示例：
+3 0 0 1 0 0 1
+4 1 0 0 1 -1 0 0 -1
+0
+--------
+0.5
+2.0
+解决思路：
+1、计算多边型的面积可以把多边形看成多个三角形组成的，因为给的是坐标所以可以按照叉乘计算面积。
+2、可以定义一个结构体，来表示的点的x，y坐标
+3、将多个三角形的面积的和累计，输出结果，保留小数点后一位小数。
+AC CODE
+#include<iostream>
+using namespace std;
+struct point{
+	double x,y;
+}a[101];
+double area(point a,point b){
+	return a.x*b.y-a.y*b.x;
+}
+int main(){
+	int n;
+	while(cin>>n){
+		if(!n) break;
+		for(int i=0;i<n;i++){
+			cin>>a[i].x>>a[i].y;
+		}
+		double result=0;
+		result=area(a[n-1],a[0]);
+		for(int i=0;i<n-1;i++){
+			result+=area(a[i],a[i+1]);
+		}
+		printf("%.1lf\n",0.5*result);
+	}
+	return 0;
+}
+
+2018/8/14
+题号:2037
+今年暑假不AC
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2037
+题目：“今年暑假不AC？”
+“是的。”
+“那你干什么呢？”
+“看世界杯呀，笨蛋！”
+“@#$%^&*%...”
+
+确实如此，世界杯来了，球迷的节日也来了，估计很多ACMer也会抛开电脑，奔向电视了。
+作为球迷，一定想看尽量多的完整的比赛，当然，作为新时代的好青年，你一定还会看一些其它的节目，比如新闻联播（永远不要忘记关心国家大事）、非常6+7、超级女生，以及
+王小丫的《开心辞典》等等，假设你已经知道了所有你喜欢看的电视节目的转播时间表，你会合理安排吗？（目标是能看尽量多的完整节目）
+Input：输入数据包含多个测试实例，每个测试实例的第一行只有一个整数n(n<=100)，表示你喜欢看的节目的总数，然后是n行数据，每行包括两个数据Ti_s,Ti_e (1<=i<=n)，分别
+表示第i个节目的开始和结束时间，为了简化问题，每个时间都用一个正整数表示。n=0表示输入结束，不做处理。
+Output：对于每个测试实例，输出能完整看到的电视节目的个数，每个测试实例的输出占一行。
+示例：
+12
+1 3
+3 4
+0 7
+3 8
+15 19
+15 20
+10 15
+8 18
+6 12
+5 10
+4 14
+2 9
+0
+-----
+5
+解题思路：
+这是一个典型的贪心问题。
+1.定义一个结构体node包含两个数据Ti_s,Ti_e
+2.输入n，再输入n个node，并进行排序
+3.遍历n个结果，如果某节点的Ti_s>=Tk_e,更新k=i；并计数；
+4.输出计数结果。
+一遍提交AC。
+AC CODE
+#include<iostream>
+#include<string.h>
+#include<algorithm>
+using namespace std;
+struct node{
+	int Ti_s,Ti_e;
+}a[101];
+int cmp(struct node a,struct node b){
+	return a.Ti_e<b.Ti_e;//从小到大排列 
+	return a.Ti_s<b.Ti_s;
+}
+int main(){
+	int n;
+	while(cin>>n){
+		if(!n) break;
+		for(int i=0;i<n;i++){
+			cin>>a[i].Ti_s>>a[i].Ti_e;
+		}
+		sort(a,a+n,cmp);
+		int t=0,result=1;
+		for(int i=1;i<n;i++){
+			if(a[i].Ti_s>=a[t].Ti_e){
+				result++;
+				t=i;
+			}
+			
+		} 
+		cout<<result<<endl; 
+	}
+	return 0;
+}
+
+题号：2039
+三角形
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2039
+题目：给定三条边，请你判断一下能不能组成一个三角形。
+Input：输入数据第一行包含一个数M，接下有M行，每行一个实例，包含三个正数A,B,C。其中A,B,C <1000;
+Output：对于每个测试实例，如果三条边长A,B,C能组成三角形的话，输出YES，否则NO。 
+示例：
+2
+1 2 3
+2 2 2
+------
+NO
+YES
+解题思路：
+1.能组成三角形的条件是，两个较小的边之和>第三边
+2.先输入n，再输入n个A,B,C，将A,B,C从小到大排序
+3.然后计算较小的两个数相加是否大于第三个数，若大于则输出YES，否则NO。 
+在做的过程中想到更简单的做法，任意两边大于第三边可构成三角形，a+b>c&&a+c>b&&b+c>a，无需排序。
+写完代码后，提交wrong answer。
+查找原因，觉得自己的思路没有错误呀！然后再仔细读题。发现三个边长说是三个正数，我定义的int型，正数应该包括正的整数和正的小数。故将代码改为定义A B C 为double型
+再次提交终于AC了。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int m;
+	cin>>m;
+	double a,b,c;
+	for(int i=0;i<m;i++){
+		cin>>a>>b>>c;
+		if(a+b>c&&a+c>b&&b+c>a){
+			cout<<"YES"<<endl;
+		}else{
+			cout<<"NO"<<endl;
+		}
+	}
+	return 0; 
+    
+} 
+体会：做题要认真读题，莫要放过细节，细节决定是否AC。做事也要细心，细心决定成败。
+
+题号：2040
+亲和数
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2040
+题目：古希腊数学家毕达哥拉斯在自然数研究中发现，220的所有真约数(即不是自身的约数)之和为： 
+
+1+2+4+5+10+11+20+22+44+55+110＝284。 
+
+而284的所有真约数为1、2、4、71、 142，加起来恰好为220。人们对这样的数感到很惊奇，并称之为亲和数。一般地讲，如果两个数中任何一个数都是另一个数的真约数之和，则
+这两个数就是亲和数。 
+
+你的任务就编写一个程序，判断给定的两个数是否是亲和数
+Input：输入数据第一行包含一个数M，接下有M行，每行一个实例,包含两个整数A,B； 其中 0 <= A,B <= 600000 ;
+Output：对于每个测试实例，如果A和B是亲和数的话输出YES，否则输出NO。
+示例：
+2
+220 284
+100 200
+--------
+YES
+NO
+解题思路：
+1.真约数就是能被它整除的数。
+2.定义一个函数的求一个真约数之和。
+3.看输入的两个数是否都是对方的真约数之和等于对方，若是输出YES，否则输出NO。
+一遍提交AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int IntimateNum(int a){
+	//求一个数的所有真约数之和
+	int sum=0;
+	for(int i=1;i<a;i++){
+		if(a%i==0){
+			sum+=i;
+		}
+	} 
+	return sum;
+}
+int main(){
+	int m;
+	int a,b;
+	cin>>m;
+	for(int i=0;i<m;i++){
+		cin>>a>>b;
+		if(IntimateNum(a)==b&&IntimateNum(b)==a){
+			cout<<"YES"<<endl;
+		}else{
+			cout<<"NO"<<endl;
+		}
+	}
+	return 0;
+}
+
+2018/8/15
+题号：2041
+超级楼梯
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2041
+题目：有一楼梯共M级，刚开始时你在第一级，若每次只能跨上一级或二级，要走上第M级，共有多少种走法？
+Input：输入数据首先包含一个整数N，表示测试实例的个数，然后是N行数据，每行包含一个整数M（1<=M<=40）,表示楼梯的级数。
+Output：对于每个测试实例，请输出不同走法的数量
+示例：
+2
+2
+3
+---
+1
+2
+解题思路：
+1.此时我处于第一级，若要上到第m级台阶，即要走m-1个台阶
+2.上到第2级台阶，就走1个台阶，1种走法；上到第3级太极，就走两个台阶，有2种走法，一种是1,1 另外一种就直接跨2级；上到第4级台阶，需要走三个台阶，有3种走法，
+（1,1,1）、（1,2）、（2，1）；走到第5级台阶，需要走4个台阶，有5种走法，（1,1,1,1）、（1,1,2）、（1,2,1,）、（2,1,1）、（2,2），
+3.f(n)表示上到第n级台阶的走法，根据2.可知道f(2)=1,f(3)=2,f(4)=3,f(5)=5依次类推，可以推出一个公式f(n)=f(n-1)+f(n-2);就可以求出上到n个台阶的走法。
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int f(int n){
+	if(n==2) return 1;
+	if(n==3) return 2;
+	else return f(n-1)+f(n-2);
+}
+int main(){
+	int n,m;
+	cin>>n;
+	while(n--){
+		cin>>m;
+		cout<<f(m)<<endl;
+	}
+	return 0;
+}
+
+题号：2042
+不容易系列之二
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2042
+题目：你活的不容易，我活的不容易，他活的也不容易。不过，如果你看了下面的故事，就会知道，有位老汉比你还不容易。
+
+重庆市郊黄泥板村的徐老汉（大号徐东海，简称XDH）这两年辛辛苦苦养了不少羊，到了今年夏天，由于众所周知的高温干旱，实在没办法解决牲畜的饮水问题，就决定把这些羊都赶到集市去卖。从黄泥板村到交易地点要经过N个收费站，按说这收费站和徐老汉没什么关系，但是事实却令徐老汉欲哭无泪：
+
+（镜头回放）
+
+近景：老汉，一群羊
+远景：公路，收费站
+
+......
+
+收费员（彬彬有礼+职业微笑）：“老同志，请交过路费！”
+
+徐老汉（愕然，反应迟钝状）：“锅，锅，锅，锅-炉-费？我家不烧锅炉呀？”
+
+收费员（职业微笑依然）：“老同志，我说的是过-路-费，就是你的羊要过这个路口必须交费，understand?”
+
+徐老汉（近镜头10秒，嘴巴张开）：“我-我-我知道汽车过路要收费，这羊也要收费呀？”
+
+收费员（居高临下+不解状）：“老同志，你怎么就不明白呢，那么我问你，汽车几个轮子？”
+
+徐老汉（稍放松）：“这个我知道，今天在家里我孙子还问我这个问题，4个！”
+
+收费员（生气，站起）：“嘿！老头，你还骂人不带脏字，既然知道汽车四个轮子，难道就不知道这羊有几条腿吗？！”
+
+徐老汉（尴尬，依然不解状）：“也，也，也是4个呀，这有关系吗？”
+
+收费员（生气，站起）：“怎么没关系！我们头说了，只要是4条腿的都要收费！”
+
+......
+
+(画外音)
+
+由于徐老汉没钱，收费员就将他的羊拿走一半，看到老汉泪水涟涟，犹豫了一下，又还给老汉一只。巧合的是，后面每过一个收费站，都是拿走当时羊的一半，然后退还一只，等到老汉到达市场，就只剩下3只羊了。
+
+你,当代有良知的青年，能帮忙算一下老汉最初有多少只羊吗？
+Input：输入数据第一行是一个整数N，下面由N行组成，每行包含一个整数a(0<a<=30),表示收费站的数量。
+Output：对于每个测试实例，请输出最初的羊的数量,每个测试实例的输出占一行。
+示例：
+2
+1
+2
+----
+4
+6
+解题思路：
+1.收费站=1时，原来羊=（3-1）*2=4，收费站=2时，原来羊=（4-1）*2
+2.设置原来羊=3；for循环0~收费站-1，循环体为：原来羊=（原来羊-1）*2
+3.输出原来羊的个数。
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	int sheep;
+	int a;
+	cin>>n;
+	for(int i=0;i<n;i++){
+		cin>>a;
+		sheep=3;
+		while(a--){
+			sheep=(sheep-1)*2;
+		}
+		cout<<sheep<<endl;
+	}
+	return 0;
+}
+
+题号：2043
+密码
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2043
+题目：网上流传一句话:"常在网上飘啊，哪能不挨刀啊～"。其实要想能安安心心地上网其实也不难，学点安全知识就可以。
+
+首先，我们就要设置一个安全的密码。那什么样的密码才叫安全的呢？一般来说一个比较安全的密码至少应该满足下面两个条件：
+
+(1).密码长度大于等于8，且不要超过16。
+(2).密码中的字符应该来自下面“字符类别”中四组中的至少三组。
+
+这四个字符类别分别为：
+1.大写字母：A,B,C...Z;
+2.小写字母：a,b,c...z;
+3.数字：0,1,2...9;
+4.特殊符号：~,!,@,#,$,%,^;
+
+给你一个密码，你的任务就是判断它是不是一个安全的密码。
+Input：输入数据第一行包含一个数M，接下有M行，每行一个密码（长度最大可能为50），密码仅包括上面的四类字符。
+Output：对于每个测试实例，判断这个密码是不是一个安全的密码，是的话输出YES，否则输出NO。
+示例：
+3
+a1b2c3d4
+Linle@ACM
+^~^@^@!%
+---------
+NO
+YES
+NO
+解题思路：
+1.输入n，然输入n个字符串
+2.判断字符串的长度，是否在[8,16)
+3.遍历字符串，看是否含有“字符类别”至少三种，若有输出YES，否则输出NO。
+第一遍提交wrong answer。
+因为我没有考虑到安全的密码是要长度大于等于8，且不要超过16。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char a[8]={'~','!','@','#','$','%','^'};
+	int m;
+	char c[55];
+	cin>>m;
+	getchar();
+	for(int i=0;i<m;i++){
+		gets(c);
+		int len=strlen(c);
+		if(len<8||len>16){
+			cout<<"NO"<<endl;
+			continue;
+		}
+		int flag1=0,flag2=0,flag3=0,flag4=0;
+		for(int j=0;j<len;j++){
+			if(c[j]>='A'&&c[j]<='Z'){
+				flag1++;
+			}else if(c[j]>='a'&&c[j]<='z'){
+				flag2++;
+			}else if(c[j]>='0'&&c[j]<='9'){
+				flag3++;
+			}
+			for(int k=0;k<7;k++){
+				if(c[j]==a[k]){
+					flag4++;
+				}
+			} 	
+		}
+		//cout<<"flag:"<<flag1<<" "<<flag2<<" "<<flag3<<" "<<flag4<<endl;
+		int count=0;
+		if(flag1>0){
+			count++;
+		}	
+		if(flag2>0){
+			count++;
+		}
+		if(flag3>0){
+			count++;
+		}
+		if(flag4>0){
+			count++;
+		}	
+		if(count>2){
+			cout<<"YES"<<endl;
+		}else{
+			cout<<"NO"<<endl;
+		}
+		memset(c,0,sizeof(c));
+	}
+	return 0;
+	
+}
+
+2018/8/16
+题号：2044
+一只小蜜蜂...
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2044
+题目：有一只经过训练的蜜蜂只能爬向右侧相邻的蜂房，不能反向爬行。请编程计算蜜蜂从蜂房a爬到蜂房b的可能路线数。
+其中，蜂房的结构如下所示。
+
+
+Input：输入数据的第一行是一个整数N,表示测试实例的个数，然后是N 行数据，每行包含两个整数a和b(0<a<b<50)。
+Output：对于每个测试实例，请输出蜜蜂从蜂房a爬到蜂房b的可能路线数，每个实例的输出占一行。
+示例：
+2
+1 2
+3 6
+-----
+1
+3
+解题思路:
+1.1->2,数相差1，可能路线数为1；1->3,数相差2，可能路线为2（具体路线为123,13）；1->4.数相差3，可能路线为3（1234,124,134）;1->5数相差4，可能路线为5（12345,1245,
+  ,1235,1345,135，）
+2.2->3,数相差1，可能路线数为1；2->4,数相差2，可能路线为2（聚体路线为234,24）；2->5,数相差3，可能路线为3（2345,235,245）；
+3.将输入的两个数a,b的差为n，从蜂房a爬到蜂房b的可能路线数f(n)=f(n-1)+f(n-2);
+提交之后，显示Time Limit Exceeded。
+超时了，我想是因为我用的递归太耗时。得想一个方法不用递归求出解。
+后来又怕溢出，故将结果定义为long long int
+提交之后AC.
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	int a,b;
+	cin>>n;
+    while(n--){
+		cin>>a>>b;
+		int sub;
+		long long int result=0;
+		sub=b-a;
+		if(sub==1) {
+		   result=1;
+		   cout<<result<<endl;
+		   continue;
+     	}else if(sub==2){
+     		result=2;
+     		cout<<result<<endl;
+		    continue;
+		}
+		long long int  t1=1,t2=2;
+	    for(int j=3;j<=sub;j++){
+	    	result=t1+t2;
+	    	t1=t2;
+	    	t2=result;
+	  	    	
+		}
+		cout<<result<<endl;
+		
+	}
+	return 0;
+}
+
+题号：2045
+不容易系列之(3)—— LELE的RPG难题
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2045
+题目：人称“AC女之杀手”的超级偶像LELE最近忽然玩起了深沉，这可急坏了众多“Cole”（LELE的粉丝,即"可乐"）,经过多方打探，某资深Cole终于知道了原因，原来，LELE最近研究
+起了著名的RPG难题:
+有排成一行的ｎ个方格，用红(Red)、粉(Pink)、绿(Green)三色涂每个格子，每格涂一色，要求任何相邻的方格不能同色，且首尾两格也不同色．求全部的满足要求的涂法.
+以上就是著名的RPG难题.
+如果你是Cole,我想你一定会想尽办法帮助LELE解决这个问题的;如果不是,看在众多漂亮的痛不欲生的Cole女的面子上,你也不会袖手旁观吧?
+Input：输入数据包含多个测试实例,每个测试实例占一行,由一个整数N组成，(0<n<=50)。
+Output：对于每个测试实例，请输出全部的满足要求的涂法，每个实例的输出占一行。
+示例：
+1
+2
+---
+3
+6
+解题思路：
+1.由题意可以求出f1=3;f2=6;f3=6;
+2.fn=fn-1+2fn-2(n>=4)
+3.m表示色的种数，Fn是方案数
+Fn=(m-2)Fn-1+(m-1)Fn-2
+第一遍提交wrong answer。
+后来修改结果的类型为long long int，提交AC.
+AC CODE#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		long long int  result=0;
+		long long int a[51];
+		memset(a,0,sizeof(a));
+		if(n==1) result=3;
+		else if(n==2) result=6;
+		else if(n==3) result=6;
+		else{
+			a[2]=6;
+			a[3]=6; 
+			for(int i=4;i<=n;i++){
+				a[i]=a[i-1]+2*a[i-2];
+			}
+			result=a[n];
+		}
+		cout<<result<<endl;
+	}
+	return 0;
+}
+
+题号：2046
+骨牌铺方格
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2046
+题目：在2×n的一个长方形方格中,用一个1× 2的骨牌铺满方格,输入n ,输出铺放方案的总数.
+例如n=3时,为2× 3方格，骨牌的铺放方案有三种
+Input：输入数据由多行组成，每行包含一个整数n,表示该测试实例的长方形方格的规格是2×n (0<n<=50)。
+Output：对于每个测试实例，请输出铺放方案的总数，每个实例的输出占一行。
+示例：
+1
+3
+2
+-----
+1
+3
+2
+解题思路：
+1.寻找规律、建立数学模型
+2.n=1时，铺放方案为1，f(1)=1;则根据题意，可得出f(2)=2;f(3)=3;f(4)=5;f(5)=8
+3.根据2，可以推出f(n)=f(n-1)+f(n-2);
+4.数据多行，根据输入的n求出2*n的铺放方案的总数输出出来。可用递归，但担心超时,故决定不采用递归。
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		if(n==1) cout<<"1"<<endl;
+		else if(n==2) cout<<"2"<<endl;
+		else{
+			long long int result=2;
+			long long int tem=1;
+			for(int i=3;i<=n;i++){
+				  long long int t=result; 
+		          result+=tem;
+				  tem=t;		
+			}	
+			cout<<result<<endl;	
+		}
+	}
+	return 0;
+} 
+
+
+2018/8/17
+题号：2047
+阿牛的EOF牛肉串
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2047
+题目：今年的ACM暑期集训队一共有18人，分为6支队伍。其中有一个叫做EOF的队伍，由04级的阿牛、XC以及05级的COY组成。在共同的集训生活中，大家建立了深厚的友谊，阿牛准备
+做点什么来纪念这段激情燃烧的岁月，想了一想，阿牛从家里拿来了一块上等的牛肉干，准备在上面刻下一个长度为n的只由"E" "O" "F"三种字符组成的字符串（可以只有其中一种或
+两种字符，但绝对不能有其他字符）,阿牛同时禁止在串中出现O相邻的情况，他认为，"OO"看起来就像发怒的眼睛，效果不好。
+你，NEW ACMer,EOF的崇拜者，能帮阿牛算一下一共有多少种满足要求的不同的字符串吗？
+PS: 阿牛还有一个小秘密，就是准备把这个刻有 EOF的牛肉干，作为神秘礼物献给杭电五十周年校庆，可以想象，当校长接过这块牛肉干的时候该有多高兴！这里，请允许我代表杭电
+的ACMer向阿牛表示感谢！
+再次感谢！
+Input：输入数据包含多个测试实例,每个测试实例占一行,由一个整数n组成，(0<n<40)。
+Output：对于每个测试实例，请输出全部的满足要求的涂法，每个实例的输出占一行。
+示例：
+1
+2
+----
+3
+8
+解题思路：
+根据题意，这是一个高中关于排列的问题。
+1.根据题意得，n=1时，f(1)=3;n=2时，f(2)=8;n=3时,f(3)=22;n=4时，f(4)=60
+2.根据排列得出来的可得出一个递推公式f(n)=f(n-1)+f(n-2)
+3.最后的结果需要用long long int，否则会wrong answer，因为会溢出。
+提交AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	long long int temp,result;
+	while(cin>>n){
+		if(n==1) cout<<"3"<<endl;
+		else if(n==2) cout<<"8"<<endl;
+		else{
+			temp=3;
+			result=8;
+			for(int i=3;i<=n;i++){
+				long long int t=result;
+				result=(result+temp)*2;
+				temp=t;
+			}
+			cout<<result<<endl; 
+		}
+	}
+	return 0;
+} 
+
+
+题号：2048
+神、上帝以及老天爷
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2048
+题目：HDU 2006'10 ACM contest的颁奖晚会隆重开始了！
+为了活跃气氛，组织者举行了一个别开生面、奖品丰厚的抽奖活动，这个活动的具体要求是这样的：
+
+首先，所有参加晚会的人员都将一张写有自己名字的字条放入抽奖箱中；
+然后，待所有字条加入完毕，每人从箱中取一个字条；
+最后，如果取得的字条上写的就是自己的名字，那么“恭喜你，中奖了！”
+
+大家可以想象一下当时的气氛之热烈，毕竟中奖者的奖品是大家梦寐以求的Twins签名照呀！不过，正如所有试图设计的喜剧往往以悲剧结尾，这次抽奖活动最后竟然没有一个人中奖！
+
+我的神、上帝以及老天爷呀，怎么会这样呢？
+
+不过，先不要激动，现在问题来了，你能计算一下发生这种情况的概率吗？
+
+不会算？难道你也想以悲剧结尾？！
+Input：输入数据的第一行是一个整数C,表示测试实例的个数，然后是C 行数据，每行包含一个整数n(1<n<=20),表示参加抽奖的人数。
+Output：对于每个测试实例，请输出发生这种情况的百分比，每个实例的输出占一行, 结果保留两位小数(四舍五入)，具体格式请参照sample output。
+示例：
+1
+2
+---
+50.00%
+解题思路：
+这是有关于概率的题目。
+这方面的知识有些忘了，然后需求百度帮助：查看此博主的博客，明白了怎么做，博主博客链接为：https://blog.csdn.net/ysc504/article/details/8295826
+错的概率 = 排错的数 / 全部情况。
+全部情况就是N的阶乘。
+错排思想：
+当n个编号元素放在n个编号位置,元素编号与位置编号各不对应的方法数用M(n)表示,那么M(n-1)就表示n-1个编号元素放在n-1个编号位置,各不对应的方法数,其它类推.
+  第一步,把第n个元素放在一个位置,比如位置k,一共有n-1种方法;
+　第二步,放编号为k的元素,这时有两种情况.1,把它放到位置n,那么,对于剩下的n-2个元素,就有M(n-2)种方法;2,不把它放到位置n,这时,对于这n-1个元素,有M(n-1)种方法;
+综上得到
+n个数排错的情况M(n)=(n-1)[M(n-2)+M(n-1)]
+特殊地，M(1)=0,M(2)=1
+1.输入c，再输入c行数据，每行输入的整数为n
+2.求全部情况，写个for循环，循环体将1~n的数相乘
+3.排错的情况可用数组求出。
+一遍AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	long long int  f[21];
+	memset(f,0,sizeof(f));
+	f[1]=0;
+	f[2]=1;
+	for(int i=3;i<=20;i++){
+		f[i]=(i-1)*(f[i-1]+f[i-2]);
+	}
+	int c;
+	cin>>c;
+	while(c--){
+		int n;
+		double result=0;
+		long long int mul=1;
+		cin>>n;
+		for(int i=1;i<=n;i++)
+		   mul*=i;
+		result=1.0*f[n]/mul;
+		printf("%.2lf%%\n",result*100);
+	}
+	
+	return 0;
+}
+
+题号：2049
+不容易系列之(4)——考新郎
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2049
+题目：国庆期间,省城HZ刚刚举行了一场盛大的集体婚礼,为了使婚礼进行的丰富一些,司仪临时想出了有一个有意思的节目,叫做"考新郎",具体的操作是这样的:
+首先,给每位新娘打扮得几乎一模一样,并盖上大大的红盖头随机坐成一排;
+然后,让各位新郎寻找自己的新娘.每人只准找一个,并且不允许多人找一个.
+最后,揭开盖头,如果找错了对象就要当众跪搓衣板...
+看来做新郎也不是容易的事情...
+假设一共有N对新婚夫妇,其中有M个新郎找错了新娘,求发生这种情况一共有多少种可能.
+Input：输入数据的第一行是一个整数C,表示测试实例的个数，然后是C行数据，每行包含两个整数N和M(1<M<=N<=20)。
+Output：对于每个测试实例，请输出一共有多少种发生这种情况的可能，每个实例的输出占一行。
+示例：
+2
+2 2
+3 2
+-----
+1
+3
+解题思路：
+这是高中的数学问题。
+有N对新婚夫妇,其中有M个新郎找错了新娘的情况为Cn_m
+1.N中有多少中M个数的错排，最后可以推出递推关系：f[n]=(n-1)*(f[n-1]+f[n-2])。
+2.这题与2048题类似，就不过多说明了，直接上代码。
+一遍AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int c,m,n;
+	long long a[21],b[21];
+	memset(a,0,sizeof(a));
+	memset(b,0,sizeof(b));
+	a[0]=1,a[1]=1;
+	for(int i=2;i<21;i++)
+	      a[i]=a[i-1]*i;
+	b[1]=1;b[2]=1;b[3]=2;
+	for(int j=4;j<21;j++)
+	      b[j]=(j-1)*(b[j-1]+b[j-2]); 
+	cin>>c;
+	while(c--){
+		cin>>n>>m;
+		cout<<a[n]/a[m]/a[n-m]*b[m]<<endl;
+	}
+	
+	return 0;
+}
+
+
+题号：2050
+折线分割平面
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2050
+题目：我们看到过很多直线分割平面的题目，今天的这个题目稍微有些变化，我们要求的是n条折线分割平面的最大数目。比如，一条折线可以将平面分成两部分，两条折线最多可以
+将平面分成7部分，具体如下所示。
+Input：输入数据的第一行是一个整数C,表示测试实例的个数，然后是C 行数据，每行包含一个整数n(0<n<=10000),表示折线的数量。
+Output：对于每个测试实例，请输出平面的最大分割数，每个实例的输出占一行。
+示例：
+2
+1
+2
+---
+2
+7
+解题思路：
+分割平面是初中的数学题，我对原理不太明白，所以去百度百科去看了看。
+搜索关键词直线分割平面；
+得到链接：https://baike.baidu.com/item/%E7%9B%B4%E7%BA%BF%E5%88%86%E5%B9%B3%E9%9D%A2%E5%85%AC%E5%BC%8F/9699446?fr=aladdin
+推导过程：如果没有一条直线，那么平面就可以看作1个部分；如果有1条直线，那么平面就被分成2个部分；如果有2条直线，又可分为两种情况：第2条直线与第1条直线不相交，可分
+平面3部分，第2条直线与第1条直线相交，可分平面4部分，同理，3条直线最多可分平面7部分，4条直线最多可分平面11部分，再把这几个数分解，发现1=1，2=1+1，4=1+1+2，
+7=1+1+2+3，11=1+1+2+3+4。由此我们可得到直线分平面公式：n条直线最多能把平面分成1+1+2+3+……+n个部分,即最多能把平面分成(n(n+1)+2)/2个部分，
+化简以后为（n^2）/2+n/2+1。
+演化折线分割平面
+借鉴了一个大牛分析的分割平面的https://www.cnblogs.com/bo-jwolf/archive/2013/04/12/3033112.html
+1.f(n)=f(n-1)+4(n-1)+2-1=2n^2-n+1
+2.n条折线分割平面的最大数目2n^2-n+1
+3.根据题目要求写代码。
+一遍AC。
+AC CODE
+#include <iostream>
+using namespace std;
+int main()
+{
+    int c,n,result;
+    cin>>c;
+    while(c--)
+    {
+        cin>>n;
+        result = 2*n*n - n + 1;
+        cout<<result<<endl;
+    }
+    return 0;
+}
+
+2018/8/18
+题号：2052
+Bitset
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2051
+题目：Give you a number on base ten,you should output it on base two.(0 < n < 1000)
+Input：For each case there is a postive number n on base ten, end of file.
+Output：For each case output a number on base two.
+Sample：
+1
+2
+3
+---
+1
+10
+11
+解题思路：
+根据题目是输入一个十进制数，然后以二进制输出。
+题目比较简单，进制转换可以参照第2031题。
+提交AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n,arr[12];
+	memset(arr,0,sizeof(arr));
+	while(cin>>n){
+	    int t=0;
+	    while(n){
+	       arr[t]=n%2;
+		   n=n/2;
+		   t++;
+	   }
+	   while(t>0){
+	   	   cout<<arr[t-1];
+	   	   t--;
+	   }
+	cout<<endl;
+	}
+	return 0;
+}
+
+题号：2052
+Picture
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2052
+题目：Give you the width and height of the rectangle,darw it.
+Input：Input contains a number of test cases.For each case ,there are two numbers n and m (0 < n,m < 75)indicate the width and height of the rectangle.Iuput 
+ends of EOF.
+Output：For each case,you should draw a rectangle with the width and height giving in the input.
+after each case, you should a blank line.
+Sample：
+3 2
+-----
++---+
+|   |
+|   |
++---+
+解题思路：
+1.给出宽和高，画出一个矩形。
+2.矩形由三个符号组成。-+|
+3.假设宽为n，高为m，当第一行和最后一行就在开始和结尾输出+，中间输出n个-，2~m+1，首尾字符输出|，其余为空格。
+第一遍提交presentation error
+后来发现输出矩形之后还要输出a blank line.修改代码之后AC
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n,m;
+	while(cin>>n>>m){
+	     if(n<0||n>=75||m<0||m>=75)	break; 
+		 cout<<"+";
+	     for(int i=0;i<n;i++){
+	        cout<<"-";
+		 }
+		 cout<<"+"<<endl;
+		 for(int j=0;j<m;j++){
+		 	cout<<"|";
+			  for(int i=0;i<n;i++){
+			  	cout<<" ";
+			  } 
+			cout<<"|" <<endl;
+		 }
+		 cout<<"+";
+	     for(int i=0;i<n;i++){
+	        cout<<"-";
+		 }
+		 cout<<"+"<<endl;
+		 cout<<endl;
+	}	
+	return 0;
+}
+
+题号：2053
+Switch Game
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2053
+题目：There are many lamps in a line. All of them are off at first. A series of operations are carried out on these lamps. On the i-th operation, the lamps 
+whose numbers are the multiple of i change the condition ( on to off and off to on ).
+Input：Each test case contains only a number n ( 0< n<= 10^5) in a line.
+Output：Output the condition of the n-th lamp after infinity operations ( 0 - off, 1 - on ).
+Sample：
+1
+5
+----
+1
+0
+hint：
+Consider the second test case:
+
+The initial condition	   : 0 0 0 0 0 …
+After the first operation  : 1 1 1 1 1 …
+After the second operation : 1 0 1 0 1 …
+After the third operation  : 1 0 0 0 1 …
+After the fourth operation : 1 0 0 1 1 …
+After the fifth operation  : 1 0 0 1 0 …
+
+The later operations cannot change the condition of the fifth lamp any more. So the answer is 0.
+解题思路：
+先把这些灯标上号，1 2 3 4 5 6 7 8 ……
+首先灯全是关闭的(0指灯关着)
+第1次操作 ，标号是1的倍数全都变成相反的状态，也就是全变成1（1指灯开着）。
+第2次操作 ，标号是2的倍数全都变成相反的状态，2 4 6……变成了0。
+第3次操作 ，标号是3的倍数全都变成相反的状态，3 6 9....会变。
+根据给的示例，它问第n号台灯经过5次操作之后最后是什么状态，0还是1.
+1号灯，结果为1，操作之后是1。
+5号灯 ，结果为0，操作之后是0。
+当操作次数m>n的时,n的状态就不会改变了，因为n不会是m的倍数。
+一遍AC。
+AC CODE
+#include <iostream>
+using namespace std;
+int main()
+{
+    int n;
+    while(cin>>n)
+    {
+        int sum=0;
+        for(int i=1; i<=n; i++)
+        {
+            if(n%i==0)
+                sum++;
+        }
+ 
+        cout<<sum%2<<endl;
+ 
+    }
+    return 0;
+}
+
+
+2018/8/19
+题号：2054
+A == B ?
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2054
+题目：Give you two numbers A and B, if A is equal to B, you should print "YES", or print "NO".
+Input：each test case contains two numbers A and B.
+Output：for each case, if A is equal to B, you should print "YES", or print "NO".
+Sample：
+1 2
+2 2
+3 3
+4 3
+----
+NO
+YES
+YES
+NO
+解题思路：
+1.给出两个数，判断它们是否相等。
+2.题目没有给出两个数的大小范围。可能会超过int型，也有可能是double。
+3.可用字符数组来存储a，b，然后遍历a,b，看它们每一个字符是否相等。
+第一遍提交wrong answer。
+寻找原因：我虽然保证两个浮点型的数相等和两个整型的数相等的情况，但是没有考虑到一个浮点数和整数相等的情况，例如：1.000与1相等。
+第二遍提交wrong answer。还没有找到错误原因。
+wrong code
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	char a[1001],b[1001];
+	memset(a,0,sizeof(a));
+	memset(b,0,sizeof(b));
+	int alen,blen;
+	bool flag=false;
+	cin>>a>>b;
+	alen=strlen(a);
+	blen=strlen(b);
+	if(alen!=blen){
+		//整数和浮点数相等的情况。 
+		if(alen<blen){
+			int tem=alen;
+			alen=blen;
+			blen=tem;
+	   }
+	   //cout<<"alen:"<<alen<<" "<<"blen:"<<blen<<endl;
+		for(int i=0;i<blen;i++){
+		    if(a[i]!=b[i]){
+		    	//以小的数为基准，如果它们的值不相等，那么一定不等。 
+			    cout<<"NO"<<endl;
+			    break;
+			}else{
+			    if(a[i]=='.'||b[i]=='.'){
+			        flag=true;
+		       }
+			}	
+		}
+	//	cout<<"flag:"<<flag<<endl; 
+		//如果长度大的数，下面一位不是小数点，那么判断blen之前是否有小数点。若后面一位是小数点，则看后面是不是都是0； 
+		int t=0; 
+		if(a[blen]=='.'||b[blen]=='.'){
+			for(int i=blen+1;i<alen;i++){
+			    if(a[i]=='0'||b[i]=='0'){
+			    	t++;
+				} 
+			} 
+		//	cout<<"t:"<<t<<endl;
+			if(t==alen-blen-1) cout<<"YES"<<endl;
+			else cout<<"NO"<<endl;
+			
+		}else{
+			//当大的数有小数点时，考虑后面都为0； 
+			if(flag){
+			for(int i=blen;i<alen;i++){
+			   if(a[i]=='0'||b[i]=='0'){
+			   	    //cout<<"a[i]"<<a[i]<<" "<<"b[i]"<<b[i]<<endl;
+			    	t++;
+				} 
+		    }
+		   // cout<<"test!t:"<<t<<endl; 
+		    if(t==alen-blen){
+				cout<<"YES"<<endl;
+	    	}else{
+	    		cout<<"NO"<<endl;
+	    	} 
+			 
+     	}
+     }
+	}else{
+		for(int i=0;i<alen;i++){
+			if(a[i]!=b[i]){
+				flag=true;
+				break;
+			}
+		}
+		if(flag){
+			cout<<"NO"<<endl;
+		}else{
+			cout<<"YES"<<endl;
+		}
+		
+	}
+	
+	return 0;
+}
+后百度，借鉴了此博客https://blog.csdn.net/guodongxiaren/article/details/24271603，博主灵活使用了c++的标准库。
+AC CODE
+#include<iostream>
+#include<string>
+using namespace std;
+void trim0(string & str)
+{
+	int len = str.length();
+	if(str.find('.')!=string::npos)
+	{
+		for(int i=len-1;str[i]=='0';i--)
+			len--;
+		str=str.substr(0,len);
+	}
+	if(str[len-1]=='.')
+		str=str.substr(0,len-1);
+}
+int main()
+{
+	string a,b;
+	while(cin>>a>>b)
+	{
+		trim0(a);
+		trim0(b);
+		if(a==b)
+			cout<<"YES"<<endl;
+		else
+			cout<<"NO"<<endl;
+	}
+	return 0;
+}
+
+题号：2055
+An easy problem
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2055
+题目：we define f(A) = 1, f(a) = -1, f(B) = 2, f(b) = -2, ... f(Z) = 26, f(z) = -26;
+Give you a letter x and a number y , you should output the result of y+f(x).
+Input：On the first line, contains a number T.then T lines follow, each line is a case.each case contains a letter and a number.
+Output：for each case, you should the result of y+f(x) on a line.
+Sample：
+6
+R 1
+P 2
+G 3
+r 1
+p 2
+g 3
+-----
+19
+18
+10
+-17
+-14
+-4
+解题思路：
+1.输入T，再输入T组x和y
+2.判断x是否为大写字母或者小写字母，若为大写，则结果为y+(x-'A'+1);若为小写，则结果为y+(x-'a'+1)*-1
+3.输出结果。
+一遍AC
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int T,y;
+	char x;
+	cin>>T;
+	for(int i=0;i<T;i++){
+		cin>>x>>y;
+		int result=0;
+		if(x>='a'&&x<='z'){
+			result=y+(x-'a'+1)*-1;
+		}else if(x>='A'&&x<='Z'){
+			result=y+(x-'A'+1);
+		}
+		cout<<result<<endl; 
+	} 
+	return 0;
+}
+
+题号：2056
+Rectangles
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2056
+题目：Given two rectangles and the coordinates of two points on the diagonals of each rectangle,you have to calculate the area of the intersected part of two 
+rectangles. its sides are parallel to OX and OY .
+Input：Input The first line of input is 8 positive numbers which indicate the coordinates of four points that must be on each diagonal.The 8 numbers are x1,y1,
+x2,y2,x3,y3,x4,y4.That means the two points on the first rectangle are(x1,y1),(x2,y2);the other two points on the second rectangle are (x3,y3),(x4,y4).
+Output：Output For each case output the area of their intersected part in a single line.accurate up to 2 decimal places.
+Sample：
+1.00 1.00 3.00 3.00 2.00 2.00 4.00 4.00
+5.00 5.00 13.00 13.00 4.00 4.00 12.50 12.50
+--------------------------------------------
+1.00
+56.25
+解题思路：
+根据对角线求矩阵的面积，这是一个简单的数学题。
+1.输入8个坐标数
+2.根据对角线与矩阵面积的关系求出面积
+3.输出面积，保留两位小数。
+AC CODE
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+double max(double x,double y)
+{
+    if(x>y)
+        return x;
+    return y;
+}
+double min(double x,double y)
+{
+    if(x<y)
+        return x;
+    return y;
+}
+using namespace std;
+int main()
+{
+    double x1,y1,x2,y2,x3,y3,x4,y4,area;
+    while(cin>>x1>>y1>>x2>>y2>>x3>>y3>>x4>>y4)
+    {
+        double _x1=min(x1,x2),_x2=max(x1,x2),_y1=min(y1,y2),_y2=max(y1,y2);//分别求出矩形对角线两个点的x,y的最大最小值
+        double _x3=min(x3,x4),_x4=max(x3,x4),_y3=min(y3,y4),_y4=max(y3,y4);
+        x1=max(_x1,_x3),x2=min(_x2,_x4);//把两条对角线进行比较
+        y1=max(_y1,_y3),y2=min(_y2,_y4);
+        if(x1>x2||y1>y2)
+            area=0.0;
+        else
+        {
+            double a=x2-x1,b=y2-y1;
+            area=a*b;
+        }
+        printf("%.2lf\n",area);
+    }
+    return 0;
+}
+
+
+2018/8/20
+题号：2057
+A + B Again
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2057
+题目：There must be many A + B problems in our HDOJ , now a new one is coming.
+Give you two hexadecimal integers , your task is to calculate the sum of them,and print it in hexadecimal too.
+Easy ? AC it !
+Input：The input contains several test cases, please process to the end of the file.
+Each case consists of two hexadecimal integers A and B in a line seperated by a blank.
+The length of A and B is less than 15.
+Output：For each test case,print the sum of A and B in hexadecimal in one line.
+Sample ：
++A -A
++1A 12
+1A -9
+-1A -12
+1A -AA
+--------
+0
+2C
+11
+-2C
+-90
+解题思路：
+求a+b的和，因为没给出a+b的范围，故用long long来存储a，b以及result.
+这样就很简单。
+一遍AC.
+AC CODE
+#include <stdio.h>
+ 
+int main()
+{
+    long long a, b, result;
+ 
+    while(scanf("%llx %llx", &a, &b) != EOF) {
+        result = a + b;
+ 
+        if (result >= 0)
+            printf("%llX\n", result);
+        else
+            printf("-%llX\n", -result);
+    }
+ 
+    return 0;
+}
+
+
+题号：2058
+The sum problem
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2058
+题目：Given a sequence 1,2,3,......N, your job is to calculate all the possible sub-sequences that the sum of the sub-sequence is M.
+Input：Input contains multiple test cases. each case contains two integers N, M( 1 <= N, M <= 1000000000).input ends with N = M = 0.
+Output：For each test case, print all the possible sub-sequence that its sum is M.The format is show in the sample below.print a blank line after each test 
+case.
+Sample：
+20 10
+50 30
+0 0
+-------
+[1,4]
+[10,10]
+
+[4,8]
+[6,9]
+[9,11]
+[30,30]
+解题思路：
+找一个子序列的和等于M，那么这个子序列可以看成a+1, a+2, ... , a+d 这时，d就为这个序列的长度,起始数字就是a+1，而这个序列的和即M=a*d + (1 + d) * d /2;
+AC CODE
+#include<iostream>
+#include<cmath>
+ 
+using namespace std;
+ 
+int main(){
+        int n,m;
+        int d,b;
+        while(cin>>n>>m && (n||m)){
+                for(d=sqrt(2.0 *m); d>0;d--){
+                        b=m-(d+d*d)/2;
+                        if(b%d==0)
+                        cout<<"["<<(b/d)+1<<","<<(b/d)+d<<"]"<<endl;
+                }
+                cout<<endl;
+        }
+        return 0;
+}
+
+题目：2059
+龟兔赛跑
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2059
+题目：据说在很久很久以前，可怜的兔子经历了人生中最大的打击——赛跑输给乌龟后，心中郁闷，发誓要报仇雪恨，于是躲进了杭州下沙某农业园卧薪尝胆潜心修炼，终于练成了绝技
+，能够毫不休息得以恒定的速度(VR m/s)一直跑。兔子一直想找机会好好得教训一下乌龟，以雪前耻。
+最近正值HDU举办50周年校庆，社会各大名流齐聚下沙，兔子也趁此机会向乌龟发起挑战。虽然乌龟深知获胜希望不大，不过迫于舆论压力，只能接受挑战。
+比赛是设在一条笔直的道路上，长度为L米，规则很简单，谁先到达终点谁就算获胜。
+无奈乌龟自从上次获胜以后，成了名龟，被一些八卦杂志称为“动物界的刘翔”，广告不断，手头也有了不少积蓄。为了能够再赢兔子，乌龟不惜花下血本买了最先进的武器——“"小飞鸽
+"牌电动车。这辆车在有电的情况下能够以VT1 m/s的速度“飞驰”，可惜电池容量有限，每次充满电最多只能行驶C米的距离，以后就只能用脚来蹬了，乌龟用脚蹬时的速度为VT2 m/s。
+更过分的是，乌龟竟然在跑道上修建了很多很多（N个)的供电站，供自己给电动车充电。其中，每次充电需要花费T秒钟的时间。当然，乌龟经过一个充电站的时候可以选择去或不去
+充电。
+比赛马上开始了，兔子和带着充满电的电动车的乌龟并列站在起跑线上。你的任务就是写个程序，判断乌龟用最佳的方案进军时，能不能赢了一直以恒定速度奔跑的兔子。
+Input：
+本题目包含多组测试，请处理到文件结束。每个测试包括四行：
+第一行是一个整数L代表跑道的总长度
+第二行包含三个整数N，C，T，分别表示充电站的个数，电动车冲满电以后能行驶的距离以及每次充电所需要的时间
+第三行也是三个整数VR，VT1，VT2，分别表示兔子跑步的速度，乌龟开电动车的速度，乌龟脚蹬电动车的速度
+第四行包含了N(N<=100)个整数p1,p2...pn,分别表示各个充电站离跑道起点的距离，其中0<p1<p2<...<pn<L
+其中每个数都在32位整型范围之内。
+Output：当乌龟有可能赢的时候输出一行 “What a pity rabbit!"。否则输出一行"Good job,rabbit!";
+题目数据保证不会出现乌龟和兔子同时到达的情况。
+示例：
+100
+3 20 5
+5 8 2
+10 40 60
+100
+3 60 5
+5 8 2
+10 40 60
+----------
+Good job,rabbit!
+What a pity rabbit!
+解题思路：
+1.先输入L,再输入N,C,T还有VR，VT1，VT2
+2.动态规划。
+AC CODE
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+int main()
+{
+	int L, N, C, T, VR, VT1, VT2, p[105];
+	double tr, time;
+	double dp[1005];
+	while (cin >> L)       //L表示跑到的长度；
+	{
+		memset(p, 0, sizeof(p));
+		cin >> N >> C >> T;    //N表示充电站的个数，C表示电动车充满电后能行驶的距离，T表示每次充电所需要的时间
+		cin >> VR >> VT1 >> VT2;//分表表示兔子的跑步速度，乌龟开电车的速度，乌龟脚蹬电动车的速度；
+		for (int i = 1; i <= N; i++)
+		{
+			cin >> p[i];          //表示各电站离起跑点的距离；
+		}
+		p[N + 1] = L;
+		dp[0] = 0;
+		tr = L*1.0 / VR;
+		for (int i = 1; i <= N+1; i++)
+		{
+			double Min = 99999999;
+			for (int j = 0; j < i; j++)
+			{
+				int x = p[i] - p[j];
+				if (C >= x)
+				{
+					time = x*1.0 / VT1;
+				}
+				else
+				{
+					time = C*1.0 / VT1 + (x - C)*1.0 / VT2;
+				}
+				if (j )time += T;
+				if (Min> dp[j] + time)
+				{
+					Min = dp[j] + time;
+				}
+			}
+			dp[i] = Min;
+		}
+		if (dp[N+1]>tr)
+			cout << "Good job,rabbit!" << endl;
+		else 
+			cout << "What a pity rabbit!" << endl;
+	}
+	return 0;
+}
+
+
+题号：2060
+Snooker
+题目链接：
+题目：background:
+Philip likes to play the QQ game of Snooker when he wants a relax, though he was just a little vegetable-bird. Maybe you hadn't played that game yet, no matter,
+ I'll introduce the rule for you first.
+There are 21 object balls on board, including 15 red balls and 6 color balls: yellow, green, brown, blue, pink, black.
+The player should use a white main ball to make the object balls roll into the hole, the sum of the ball's fixed value he made in the hole is the player's score
+. The player should firstly made a red ball into the hole, after that he gains red-ball's value(1 points), then he gets the chance to make a color ball, then 
+alternately. The color ball should be took out until all the red-ball are in the hole. In other word, if there are only color balls left on board, the player 
+should hit the object balls in this order: yellow(2 point), green(3 point), brown(4 point), blue(5 point), pink(6 point), black(7 point), after the ball being 
+hit into the hole, they are not get out of the hole, after no ball left on board, the game ends, the player who has
+the higher score wins the game. PS: red object balls never get out of the hole.
+I just illustrate the rules that maybe used, if you want to contact more details, visit http://sports.tom.com/snooker/ after
+the contest.
+
+for example, if there are 12 red balls on board(if there are still red ball left on board, it can be sure that all the color
+balls must be on board either). So suppose Philp can continuesly hit the ball into the hole, he can get the maximun score is
+12 * 1 (12 red-ball in one shoot) + 7 * 12(after hit a red ball, a black ball which was the most valuable ball should be the target) + 2 + 3 + 4 + 5 + 6 + 7
+(when no red ball left, make all the color ball in hole).
+Now, your task is to judge whether Philip should make the decision to give up when telling you the condition on board(How many object balls still left not in 
+the hole and the other player's score). If Philp still gets the chance to win, just print "Yes", otherwise print "No". (PS: if the max score he could get on 
+board add his current score is equal to the opponent's current score, still output "Yes")
+Input：The first line contains a numble N indicating the total conditions. Then followed by N lines, each line is made of three integers:
+Ball_Left P_Score O_Score represeting the ball number left on board, Philp's current score, and the opponent's current score.
+All the input value are in 32 bit integer value range.
+Output：You should caculate the max score left Philp can gain, and judge whether he has the possiblity to win.
+Sample ：
+2
+12 1 1
+1 30 39
+--------
+Yes
+No
+解题思路：
+题意：给你场上剩下的球数m , 和 a ,b 两名队员目前得分，现在假设a将所有的球m都打入洞中，然后让你输出是否最终a的得分会超过b；
+总共有15个红球，和6个有颜色的球，每个红球的得分为1 ，6个有颜色的球分别为2 ， 3， 4 ，5， 6， 7
+1.情况1：当 m > 6时 ，应该将有颜色的球都取了，有色球得分为2 + 3  + 4 + 5 + 6 + 7 ，有色球总得分为27 ；然后再取红球 m - 6 ,本来得分应该是 ( m - 6 ) * 1 ，但是
+由于有色球全部打进洞后，每个球需要额外增加黑球（最高得分）的得分；所以红球总得分为（m-6) * 1+(m-6) * 7 ;总得分为（m-6)*8+27 ;
+2.情况2：当 m <= 6 时 ，应该由价值最高的黑球（7分） 向前依次增加求和，又因为有色球满足等差数列 ，由前6项减去前 6 - m项和，所以求得为（7 -m +1 +7) * m / 2 
+( 这里直接通过得分来计算的）。第二种情况得分为（1 -m) *m/ 2 ;
+AC CODE
+#include <stdio.h>
+#include <string.h>
+#include <algorithm>
+using namespace std;
+
+int main()
+{
+    int t,n,a,b;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d%d",&n,&a,&b);
+        if(n>6)
+            a = a+(n-6)*8+27;
+        else
+            a = a+(15-n)*n/2;
+        if(a>=b)
+            printf("Yes\n");
+        else
+            printf("No\n");
+    }
+ 
+    return 0;
+}
+
+题号：2061
+Treasure the new start, freshmen!
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2061
+题目：background:
+A new semester comes , and the HDU also meets its 50th birthday. No matter what's your major, the only thing I want to tell you is:"Treasure the college life 
+and seize the time." Most people thought that the college life should be colorful, less presure.But in actual, the college life is also busy and rough. If you 
+want to master the knowledge learned from the book, a great deal of leisure time should be spend on individual study and practise, especially on the latter one.
+I think the every one of you should take the learning attitude just as you have in senior school.
+"No pain, No Gain", HDU also has scholarship, who can win it? That's mainly rely on the GPA(grade-point average) of the student had got. Now, I gonna tell you 
+the rule, and your task is to program to caculate the GPA.
+If there are K(K > 0) courses, the i-th course has the credit Ci, your score Si, then the result GPA is
+GPA = (C1 * S1 + C2 * S2 +……+Ci * Si……) / (C1 + C2 + ……+ Ci……) (1 <= i <= K, Ci != 0)
+If there is a 0 <= Si < 60, The GPA is always not existed.
+Input：The first number N indicate that there are N test cases(N <= 50). In each case, there is a number K (the total courses number), then K lines followed, 
+each line would obey the format: Course-Name (Length <= 30) , Credits(<= 10), Score(<= 100).
+Notice: There is no blank in the Course Name. All the Inputs are legal。
+Output：Output the GPA of each case as discribed above, if the GPA is not existed, ouput:"Sorry!", else just output the GPA value which is rounded to the 2 
+digits after the decimal point. There is a blank line between two test cases. 
+Sample：
+2
+3
+Algorithm 3 97
+DataStruct 3 90
+softwareProject 4 85
+2
+Database 4 59
+English 4 81
+-------------
+90.10
+
+Sorry!
+解题思路：
+题意：学校按(每门课的学分*得到的分数)的总和 ÷ 总学分 ，计算平均分。如果你有课程不到60分，就不计算平均分了。
+1.输入N,再输入n个k，k组科目，学分以及成绩，科目名为string，学分和成绩用double
+2.对学分和成绩进行加和，若有成绩低于60的，进行标记
+3.输出没有成绩低于60的GPA，否则输出Sorry!
+AC CODE
+#include<iostream>
+#include<string>
+using namespace std;
+int main(){
+	int n,k;
+    double credit,score;
+    string name;
+    double sum;
+    cin>>n;
+    while(n--){
+    	cin>>k;
+    	int flag=0;
+		double creditsum=0;
+    	sum=0;
+    	for(int i=0;i<k;i++){
+    	    cin>>name>>credit>>score;
+    		if(score<60&&score>=0) flag=1;
+    		sum+=(credit*score);
+			creditsum+=credit;	
+		}
+		if(flag) cout<<"Sorry!"<<endl;
+		else{
+			printf("%.2lf\n",sum/creditsum); 
+		}
+		if(n) cout<<endl; 
+	}
+	return 0;
+}
+
+
+题号：2062
+Subset sequence
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2062
+题目：Consider the aggregate An= { 1, 2, …, n }. For example, A1={1}, A3={1,2,3}. A subset sequence is defined as a array of a non-empty subset. Sort all the 
+subset sequece of An in lexicography order. Your task is to find the m-th one.
+Input：The input contains several test cases. Each test case consists of two numbers n and m ( 0< n<= 20, 0< m<= the total number of the subset sequence of An ).
+Output：For each test case, you should output the m-th subset sequence of An in one line.
+Sample：
+1 1
+2 1
+2 2
+2 3
+2 4
+3 10
+------
+1
+1
+1 2
+2
+2 1
+2 3 1
+解题思路：
+1.设f(n)是n个数字按照字典序所产生的子集个数，f(n) = n*( f(n-1) + 1 )，f(1)=1 
+2.先输出开头数字，然后把问题规模缩小到( n-1 , m-(t-1)*g(n)-1 )，不断缩小规模直至找到答案。
+例如n=3时，有
+{1}
+{1, 2}
+{1, 2, 3}
+{1, 3}
+{1, 3, 2}
+
+{2}
+{2, 1}
+{2, 1, 3}
+{2, 3}
+{2, 3, 1}
+
+{3}
+{3, 1}
+{3, 1, 2}
+{3, 2}
+{3, 2, 1}
+一遍AC。
+AC CODE
+#include <stdio.h> 
+int main()
+{
+    int i,n,t;
+    __int64 m;
+    __int64 c[21]={0};
+    int s[21]; 
+    for (i=1;i<21;i++)
+        c[i]=c[i-1]*(i-1)+1;//推导公式：c[n]=(n-1)*c[n-1]+1
+    while (scanf("%d%I64d",&n,&m)!=EOF)
+    {
+        for(i=0;i<21;i++)
+            s[i]=i;
+        while (n>0&&m>0)
+        {
+            t=m/c[n]+(m%c[n]>0?1:0);
+            if(t>0)
+            {
+                printf("%d",s[t]);
+                for(i=t;i<=n;i++)
+                    s[i]=s[i+1];
+                m-=((t-1)*c[n]+1);
+                putchar(m==0?'\n':' ');
+            }
+            n--;
+        }
+    }
+    return 0;
+}
+2018/8/21
+题号：2063
+过山车
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2063
+题目：RPG girls今天和大家一起去游乐场玩，终于可以坐上梦寐以求的过山车了。可是，过山车的每一排只有两个座位，而且还有条不成文的规矩，就是每个女生必须找个个男生
+做partner和她同坐。但是，每个女孩都有各自的想法，举个例子把，Rabbit只愿意和XHD或PQK做partner，Grass只愿意和linle或LL做partner，PrincessSnow愿意和水域浪子或
+伪酷儿做partner。考虑到经费问题，boss刘决定只让找到partner的人去坐过山车，其他的人，嘿嘿，就站在下面看着吧。聪明的Acmer，你可以帮忙算算最多有多少对组合可以
+坐上过山车吗？
+Input：输入数据的第一行是三个整数K , M , N，分别表示可能的组合数目，女生的人数，男生的人数。0<K<=1000
+1<=N 和M<=500.接下来的K行，每行有两个数，分别表示女生Ai愿意和男生Bj做partner。最后一个0结束输入。
+Output：对于每组数据，输出一个整数，表示可以坐上过山车的最多组合数。
+示例：
+6 3 3
+1 1
+1 2
+1 3
+2 1
+2 3
+3 1
+0
+-----
+3
+解题思路：
+1.输入三个intK , M , N，分别表示可能的组合数目，女生的人数，男生的人数
+2.女生匹配男生，若匹配成功，则把被选的男生置为被选，并将组合数+1；
+3.匹配成功不代表不可以更换，再新一轮迭代时，若后面有女生想选某男生，可以更换。
+一遍AC.
+AC CODE
+#include<stdio.h>
+#include<string.h>
+int line[510][510],boy[510],used[510];
+int n,m;
+int Find(int x)
+{
+    int i,j;
+    for(i=1;i<=m;i++)
+    {
+       if(line[x][i]==1&&used[i]==0)
+       { 
+          used[i]=1;
+          if(boy[i]==0||Find(boy[i]))
+          {
+             boy[i]=x;
+             return 1;
+          }
+       }
+    }
+    return 0;
+}
+int main()
+{
+    int i,j,k,x,y,sum;
+    while(scanf("%d %d %d",&k,&n,&m),k!=0)
+    {
+       memset(line,0,sizeof(line));
+       memset(boy,0,sizeof(boy));
+       memset(used,0,sizeof(used));
+       for(i=0;i<k;i++)
+       {
+          scanf("%d %d",&x,&y);
+          line[x][y]=1;
+       } 
+       sum=0;
+       for(i=1;i<=n;i++)  
+       {
+           memset(used,0,sizeof(used));
+           if(Find(i)) sum++;
+       }
+       printf("%d\n",sum);
+    }
+    return 0;
+}
+
+题号;2064
+汉诺塔III
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2064
+题目：约19世纪末，在欧州的商店中出售一种智力玩具，在一块铜板上有三根杆，最左边的杆上自上而下、由小到大顺序串着由64个圆盘构成的塔。目的是将最左边杆上的盘全部移到右边的
+杆上，条件是一次只能移动一个盘，且不允许大盘放在小盘的上面。
+现在我们改变游戏的玩法，不允许直接从最左(右)边移到最右(左)边(每次移动一定是移到中间杆或从中间移出)，也不允许大盘放到下盘的上面。
+Daisy已经做过原来的汉诺塔问题和汉诺塔II，但碰到这个问题时，她想了很久都不能解决，现在请你帮助她。现在有N个圆盘，她至少多少次移动才能把这些圆盘从最左边移到最右边
+？
+Input：包含多组数据，每次输入一个N值(1<=N=35)。
+Output：对于每组数据，输出移动最小的次数。
+示例：
+1
+3
+12
+-----
+2
+26
+531440
+解题思路：
+这是一道递归题。
+1.假设将n层塔从A经B挪到C需要f[n]步。那么具体的移动过程可以这样看：将上面n-1层从A经B挪到C需要f[n-1]步
+2.再将第n层从A挪到B，需要一步，再将上n-1层从C经B挪到A，需要f[n-1]步
+3.再将第n层从B挪到C，需要一步，再将上n-1层从A经B挪到C，需要f[n-1]步，总计3*f[n-1] + 2步，其中 f[1] = 2;
+AC CODE
+#include <stdio.h>
+__int64 dp[36] = {0, 2}; 
+int main()
+{
+    int n;
+    for(n = 2; n < 36; ++n) dp[n] = dp[n-1] * 3 + 2;
+    while(scanf("%d", &n) == 1) printf("%I64d\n", dp[n]);
+    return 0;
+}
+
+题号：2065
+"红色病毒"问题
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2065
+题目：医学界发现的新病毒因其蔓延速度和Internet上传播的"红色病毒"不相上下,被称为"红色病毒",经研究发现,该病毒及其变种的DNA的一条单链中,胞嘧啶,腺嘧啶均是成对出现的。
+现在有一长度为N的字符串,满足一下条件:
+(1) 字符串仅由A,B,C,D四个字母组成;
+(2) A出现偶数次(也可以不出现);
+(3) C出现偶数次(也可以不出现);
+计算满足条件的字符串个数.
+当N=2时,所有满足条件的字符串有如下6个:BB,BD,DB,DD,AA,CC.
+由于这个数据肯能非常庞大,你只要给出最后两位数字即可.
+Input：每组输入的第一行是一个整数T,表示测试实例的个数,下面是T行数据,每行一个整数N(1<=N<2^64),当T=0时结束.
+Output：对于每个测试实例,输出字符串个数的最后两位,每组输出后跟一个空行.
+示例：
+4
+1
+4
+20
+11
+3
+14
+24
+6
+0
+-----
+Case 1: 2
+Case 2: 72
+Case 3: 32
+Case 4: 0
+
+Case 1: 56
+Case 2: 72
+Case 3: 56
+解题思路：
+1.没有任何条件限制，A、B、C、D组成长度为n的字符串，其个数应该为:4^n。
+2.n=1时，为2,；其余的每20个一次循环，2(n-2) % 20 + 2
+一遍AC。
+AC CODE
+#include<iostream>
+#include<cmath>
+#include<cstdio>
+using namespace std;
+int main()
+{
+    int t;
+    int d[]={4,8,16,32,64,28,56,12,24,48,96,92,84,68,36,72,44,88,76,52};
+    while(cin>>t&&t)
+    {
+        long long n;
+        int i=0;
+        while(t--)
+        {
+            cin>>n;
+            int temp;
+            if(n==1) temp=2;
+            else if(n==2) temp=6;
+            else temp=(d[(n-3)%20]+d[(2*n-4)%20])%100;
+            printf("Case %d: %d\n",++i,temp);
+        }
+        cout<<endl;
+    }
+}
+看见一种用指数级生成函数生成的结果：为n时，情况为(4^n+2*2^n)/4=4^(n-1)+2^（n-1）
+
+题号：2066
+一个人的旅行
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2066
+题目：虽然草儿是个路痴（就是在杭电待了一年多，居然还会在校园里迷路的人，汗~),但是草儿仍然很喜欢旅行，因为在旅途中 会遇见很多人（白马王子，^0^），很多事，还能
+丰富自己的阅历，还可以看美丽的风景……草儿想去很多地方，她想要去东京铁塔看夜景，去威尼斯看电影，去阳明山上看海芋，去纽约纯粹看雪景，去巴黎喝咖啡写信，去北京探望
+孟姜女……眼看寒假就快到了，这么一大段时间，可不能浪费啊，一定要给自己好好的放个假，可是也不能荒废了训练啊，所以草儿决定在要在最短的时间去一个自己想去的地方！
+因为草儿的家在一个小镇上，没有火车经过，所以她只能去邻近的城市坐火车（好可怜啊~）。
+Input：输入数据有多组，每组的第一行是三个整数T，S和D，表示有T条路，和草儿家相邻的城市的有S个，草儿想去的地方有D个；
+接着有T行，每行有三个整数a，b，time,表示a,b城市之间的车程是time小时；(1=<(a,b)<=1000;a,b 之间可能有多条路)
+接着的第T+1行有S个数，表示和草儿家相连的城市；
+接着的第T+2行有D个数，表示草儿想去地方。
+Output：输出草儿能去某个喜欢的城市的最短时间。
+示例：
+6 2 3
+1 3 5
+1 4 7
+2 8 12
+3 8 4
+4 9 12
+9 10 2
+1 2
+8 9 10
+-------
+9
+解题思路：
+这题需要用dijkstra算法，我已经忘记怎么做了，所以先空着。
+
+
+题号：2067
+小兔的棋盘
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2067
+题目：小兔的叔叔从外面旅游回来给她带来了一个礼物，小兔高兴地跑回自己的房间，拆开一看是一个棋盘，小兔有所失望。不过没过几天发现了棋盘的好玩之处。从起点(0，0)走
+到终点(n,n)的最短路径数是C(2n,n),现在小兔又想如果不穿越对角线(但可接触对角线上的格点)，这样的路径数有多少?小兔想了很长时间都没想出来，现在想请你帮助小兔解决这
+个问题，对于你来说应该不难吧!
+Input：每次输入一个数n(1<=n<=35)，当n等于－1时结束输入。
+Output：对于每个输入数据输出路径数，具体格式看Sample。
+示例：
+1
+3
+12
+-1
+----
+1 1 2
+2 3 10
+3 12 416024
+解题思路：
+这题用到了动态规划的思想
+一遍AC。
+AC CODE
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+using namespace std;
+long long dp[40][40];
+int main()
+{
+    int n;
+    int t=1;
+    for(int i=1;i<=36;i++)
+        dp[i][0]=1;
+    for(int i=1;i<36;i++)
+    {
+        for(int j=1;j<36;j++)
+        {
+            if(i==j) dp[i][j]=dp[i][j-1];
+            else
+                dp[i][j]=dp[i-1][j]+dp[i][j-1];
+        }
+    }
+    while(cin>>n&&n!=-1)
+    {
+        cout<<t++<<" "<<n<<" ";
+        cout<<2*dp[n][n]<<endl;
+    }
+}
+
+2018/8/22
+题号：2068
+RPG的错排
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2068
+题目：今年暑假杭电ACM集训队第一次组成女生队,其中有一队叫RPG,但做为集训队成员之一的野骆驼竟然不知道RPG三个人具体是谁谁。RPG给他机会让他猜猜，第一次猜：R是公主，
+P是草儿，G是月野兔；第二次猜：R是草儿，P是月野兔，G是公主；第三次猜：R是草儿，P是公主，G是月野兔；......可怜的野骆驼第六次终于把RPG分清楚了。由于RPG的带动，
+做ACM的女生越来越多，我们的野骆驼想都知道她们，可现在有N多人，他要猜的次数可就多了，为了不为难野骆驼，女生们只要求他答对一半或以上就算过关，请问有多少组答案能
+使他顺利过关。
+Input：输入的数据里有多个case,每个case包括一个n，代表有几个女生，（n<=25）, n = 0输入结束。
+示例：
+1
+2
+0
+----
+1
+1
+解题思路：
+错排
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+double combine(int n,int m){
+	double s=1;
+	for(int i=0;i<m;i++){
+		s=s*(n-i)/(i+1);
+	}
+	return s;
+}
+int main(){
+	int n,m;
+	double s[20],result;
+	s[1]=0;s[2]=1;
+	for(int i=3;i<20;i++){
+		s[i]=(i-1)*(s[i-1]+s[i-2]);
+	}
+	while(cin>>n&&n){
+		result=0;
+		if(n%2==0)
+		   m=n/2;
+		else
+		   m=(n+1)/2;
+		for(int i=m;i<n;i++)
+		   result=result+combine(n,i)*s[n-i];
+		printf("%.lf\n",result+1);
+	}
+	return 0;
+}
+
+题号：2069
+Coin Change
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2069
+题目：Suppose there are 5 types of coins: 50-cent, 25-cent, 10-cent, 5-cent, and 1-cent. We want to make changes with these coins for a given amount of money.
+
+For example, if we have 11 cents, then we can make changes with one 10-cent coin and one 1-cent coin, or two 5-cent coins and one 1-cent coin, or one 5-cent 
+coin and six 1-cent coins, or eleven 1-cent coins. So there are four ways of making changes for 11 cents with the above coins. Note that we count that there 
+is one way of making change for zero cent.
+
+Write a program to find the total number of different ways of making changes for any amount of money in cents. Your program should be able to handle up to 100 
+coins.
+Input：The input file contains any number of lines, each one consisting of a number ( ≤250 ) for the amount of money in cents.
+Output：For each input line, output a line containing the number of different ways of making changes with the above 5 types of coins.
+Sample：
+11
+26
+----
+4
+13
+解题思路：
+题意：有5种硬币：50、25、10、5、1
+然后问当钱为n时，比如钱为11时，有多少种组合的方法?
+当n为11时，由4种组合方法
+1.10+1
+2.5+6*1
+3.5*2+1
+4.1*11
+可以暴力求解
+一遍AC。
+AC CODE
+#include<stdio.h>
+int main()
+{
+    int i,j,k,l,m;
+    int n,t;
+    while (~scanf("%d",&n))
+    {
+        t=0;
+        for (int i=0;i*50<=n;i++)
+            for (int j=0;j*25<=n;j++)
+                for (int k=0;k*10<=n;k++)
+                    for (int l=0;l*5<=n;l++)
+                        for(m=0;m<=100;m++)
+                            if (i*50+j*25+k*10+l*5+m==n&&i+j+k+l+m<=100)
+                                  t++;
+        printf("%d\n",t);
+    }
+}
+
+
+题号:2070
+Fibbonacci Number
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2070
+题目：Your objective for this question is to develop a program which will generate a fibbonacci number. The fibbonacci function is defined as such:
+
+f(0) = 0
+f(1) = 1
+f(n) = f(n-1) + f(n-2)
+
+Your program should be able to handle values of n in the range 0 to 50.
+Input：Each test case consists of one integer n in a single line where 0≤n≤50. The input is terminated by -1.
+Output：Print out the answer in a single line for each test case.
+Sample：
+3
+4
+5
+-1
+-----
+2
+3
+5
+解题思路：
+求fibbonacci数。
+1.写一个递归函数
+2.输入n，调用递归函数
+第一遍提交超时了。
+改掉递归，不用递归来解决,然后AC.
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	long long f[51];
+	memset(f,0,sizeof(f));
+	f[0]=0;f[1]=1;
+	for(int i=2;i<=50;i++){
+		f[i]=f[i-1]+f[i-2];
+	}
+	int n;
+	while(cin>>n){
+		if(n==-1) break;
+		else
+		    cout<<f[n]<<endl;
+	}
+	return 0;
+	
+}
+
+题号：2071
+Max Num
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2071
+题目：There are some students in a class, Can you help teacher find the highest student .
+Input:There are some cases. The first line contains an integer t, indicate the cases; Each case have an integer n ( 1 ≤ n ≤ 100 ) , followed n students’ height.
+Output:For each case output the highest height, the height to two decimal plases;
+Sample :
+2
+3 170.00 165.00 180.00
+4 165.00 182.00 172.00 160.00
+------------------------------
+180.00
+182.00
+解题思路：
+1.这题可以用c++自带排序
+2.可以用冒泡排序。
+3.遍历，只保存最大的数输出。
+我用的第三种方法。
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int t,n;
+	double height;
+	cin>>t;
+	while(t--){
+		cin>>n;
+		double max=0;
+		for(int i=0;i<n;i++){
+			cin>>height;
+			if(height>max){
+				max=height;
+			}
+		}
+		printf("%.2lf\n",max);
+		
+	}
+	return 0;
+}
+
+题号：2072
+单词数
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2072
+题目：lily的好朋友xiaoou333最近很空，他想了一件没有什么意义的事情，就是统计一篇文章里不同单词的总数。下面你的任务是帮助xiaoou333解决这个问题。
+Input：
+有多组数据，每组一行，每组就是一篇小文章。每篇小文章都是由小写字母和空格组成，没有标点符号，遇到#时表示输入结束。
+Output：每组只输出一个整数，其单独成行，该整数代表一篇文章里不同单词的总数。
+示例：
+you are my friend
+#
+-------
+4
+解题思路：
+这题只需要用C++的字符串集合来解决，很简单。
+一遍AC。
+AC CODE
+#include <iostream>
+#include <cstdio>
+#include <sstream>
+#include <set>
+using namespace std;
+int main()
+{
+    string s; 
+    while(getline(cin, s) && s != "#") {
+        istringstream sin(s);
+        set<string> words;
+        string word; 
+        while(sin >> word)
+            words.insert(word);
+ 
+        cout << words.size() << endl;
+    }
+ 
+    return 0;
+}
+
+
+
+
+2018/8/23
+题号：2073
+无限的路
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2073
+题目：甜甜从小就喜欢画图画，最近他买了一支智能画笔，由于刚刚接触，所以甜甜只会用它来画直线，于是他就在平面直角坐标系中画出如下的图形：
+甜甜的好朋友蜜蜜发现上面的图还是有点规则的，于是他问甜甜：在你画的图中，我给你两个点，请你算一算连接两点的折线长度（即沿折线走的路线长度）吧。
+Input：第一个数是正整数N（≤100）。代表数据的组数。
+每组数据由四个非负整数组成x1，y1，x2，y2；所有的数都不会大于100。
+Output：对于每组数据，输出两点(x1,y1),(x2,y2)之间的折线距离。注意输出结果精确到小数点后3位。
+示例：
+5
+0 0 0 1
+0 0 1 0
+2 3 3 1
+99 99 9 9
+5 5 5 5
+-------
+1.000
+2.414
+10.646
+54985.047
+0.000
+解题思路：
+两点之间的折线距离,分别求出两点到原点的距离，然后相减即可
+一遍AC。
+AC CODE
+#include <iostream>
+#include <cmath>
+using namespace std;
+double distancen(int x,int y)
+{
+    double dis=0;
+    double temp=sqrt(2.0);
+    for(int i=1;i<=x+y;i++)
+      dis+=(i*temp);
+    dis-=(y*temp);
+    for(int i=0;i<x+y;i++)
+      dis+=sqrt((double)i*i+(double)(i+1)*(i+1));
+    return dis;
+}
+int main()
+{
+    int t,x1,x2,y1,y2;
+    cin>>t;
+    while(t--)
+    {
+        scanf("%d%d%d%d",&x1,&y1,&x2,&y2);
+        double ans=fabs(distancen(x1,y1)-distancen(x2,y2));
+        printf("%.3f\n",ans);
+    }
+    return 0;
+} 
+
+
+
+题号：2074
+叠筐
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2074
+题目：需要的时候，就把一个个大小差一圈的筐叠上去，使得从上往下看时，边筐花色交错。这个工作现在要让计算机来完成，得看你的了。
+Input：输入是一个个的三元组，分别是，外筐尺寸n（n为满足0<n<80的奇整数），中心花色字符，外筐花色字符，后二者都为ASCII可见字符；
+Output：输出叠在一起的筐图案，中心花色与外筐花色字符从内层起交错相叠，多筐相叠时，最外筐的角总是被打磨掉。叠筐与叠筐之间应有一行间隔。
+示例：
+11 B A
+5 @ W
+------
+AAAAAAAAA 
+ABBBBBBBBBA
+ABAAAAAAABA
+ABABBBBBABA
+ABABAAABABA
+ABABABABABA
+ABABAAABABA
+ABABBBBBABA
+ABAAAAAAABA
+ABBBBBBBBBA
+ AAAAAAAAA 
+
+ @@@ 
+@WWW@
+@W@W@
+@WWW@
+ @@@ 
+解题思路：
+1.输入n，中心花色字符a，外筐花色字符b；
+2.根据示例可以看出由外及里，第一圈为外围花色b，第二圈为中心花色a，第三圈为b，第四圈为a...依次类推。
+一遍AC。
+AC CODE
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+
+using namespace std;
+
+int main()
+{
+    int n;
+    char c1,c2;
+    char a[100][100];
+    int flag=0;
+    while(~scanf("%d %c %c",&n,&c1,&c2)){
+            if(flag==1){
+                printf("\n");
+            }
+            flag=1;
+            if(n==1){
+                printf("%c\n",c1);
+                continue;
+            }
+            for(int i=0;i<=n/2;i++){
+            char t;
+            if((n/2)%2==0){
+                if(i%2==0){
+                    t=c1;
+                }else{
+                    t=c2;
+                }
+            }else{
+                if(i%2==0){
+                    t=c2;
+                }else{
+                    t=c1;
+                }
+            }
+            for(int j=i;j<n-i;j++){
+                a[i][j]=t;
+                a[n-i-1][j]=t;
+            }
+            for(int j=i;j<n-i;j++){
+                a[j][i]=t;
+                a[j][n-i-1]=t;
+            }
+        }
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                if(i==0&&j==0||i==0&&j==n-1||i==n-1&&j==0||i==n-1&&j==n-1){
+                    printf(" ");
+                }else{
+                    printf("%c",a[i][j]);
+                }
+            }
+            printf("\n");
+
+        }
+
+
+
+    }
+    return 0;
+}
+
+
+
+
+题号：2075
+A|B?
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2075
+题目：正整数A是否能被正整数B整除，不知道为什么xhd会研究这个问题，来帮帮他吧。
+Input：输入数据的第一行是一个数据T，表示有T组数据。
+每组数据有两个正整数A和B(A,B<10^9)。
+Output：对于每组输入数据，输出"YES"表示可以被整除，"NO"表示不能被整除。
+示例：
+2
+4 2
+5 3
+-----
+YES
+NO
+解题思路：
+1.正整数A和B(A,B<10^9)，在int型范围内，可以定义为int型。
+2.判断正整数A是否能被正整数B整除，就用A%B==0来判断。
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int t;
+	int a,b;
+	cin>>t;
+	while(t--){
+		cin>>a>>b;
+		if(a%b==0) cout<<"YES"<<endl;
+		else cout<<"NO"<<endl;
+	} 
+	return 0;
+} 
+
+题号：2076
+夹角有多大
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2076
+题目：时间过的好快，一个学期就这么的过去了，xhd在傻傻的看着表，出于对数据的渴望，突然他想知道这个表的时针和分针的夹角是多少。现在xhd知道的只有时间，请你帮他算出这个夹角。
+
+注：夹角的范围[0，180]，时针和分针的转动是连续而不是离散的。
+Input：输入数据的第一行是一个数据T，表示有T组数据。
+每组数据有三个整数h(0 <= h < 24)，m(0 <= m < 60)，s(0 <= s < 60)分别表示时、分、秒。
+Output：对于每组输入数据，输出夹角的大小的整数部分。
+示例：
+2
+8 3 17
+5 13 30
+---------
+138
+75
+解题思路：
+1.秒针每走360°（60s），分针走6°（1min）
+2.分针每走360°（60min），时针走30°（1h）
+3.故当每秒走6°，此时分钟走1/10°，时钟走1/120°
+4.每小时时针走30度，每分钟分针走6度。
+第一遍wrong answer。
+第二遍才AC.
+AC CODE
+#include<stdio.h>
+int main()
+{
+    int t,h,m,s;
+    double angle1,angle2,ans;
+    scanf("%d",&t);
+    while(t--)
+    {
+        scanf("%d%d%d",&h,&m,&s);
+        if(h>12)h-=12;
+        angle1=30.0*h+30/60.0*m+30/3600.0*s;
+        angle2=6.0*m+6/60.0*s;  
+        ans=angle1-angle2;
+        ans=ans<0?-ans:ans;
+        ans=ans>180?360-ans:ans;
+        printf("%d\n",(int)ans);
+    }
+    return 0;
+}
+
+题号：2077
+汉诺塔IV
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2077
+题目：还记得汉诺塔III吗？他的规则是这样的：不允许直接从最左(右)边移到最右(左)边(每次移动一定是移到中间杆或从中间移
+出)，也不允许大盘放到小盘的上面。xhd在想如果我们允许最大的盘子放到最上面会怎么样呢？（只允许最大的放在最上面）当然
+最后需要的结果是盘子从小到大排在最右边。
+Input：输入数据的第一行是一个数据T，表示有T组数据。
+每组数据有一个正整数n(1 <= n <= 20)，表示有n个盘子。
+Output：对于每组输入数据，最少需要的摆放次数。
+示例：
+2
+1
+10
+----
+2
+19684
+解题思路：
+1.递推公式：dp[n]=3*dp[n-1]+2
+AC CODE
+#include <cstdio>
+using namespace std;
+typedef long long LL;
+int t,n;
+LL f[22],g[22];
+int main(){
+    g[1] = 1 , g[0] = 0 , f[1] = 2;
+    for (int i =2;i <22; i++ )
+        g[i] = 3*g[i-1] + 1;
+    scanf ("%d",&t);
+    while (t--)
+    {
+        scanf ("%d",&n);
+        printf ("%lld\n",2*g[n-1]+2);
+    }
+    return 0;
+}
+
+
+2018/8/24
+题号:2078
+复习时间
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2078
+题目：为了能过个好年，xhd开始复习了，于是每天晚上背着书往教室跑。xhd复习有个习惯，在复习完一门课后，他总是挑一门更
+简单的课进行复习，而他复习这门课的效率为两门课的难度差的平方,而复习第一门课的效率为100和这门课的难度差的平方。xhd这
+学期选了n门课，但是一晚上他最多只能复习m门课，请问他一晚上复习的最高效率值是多少？
+Input：输入数据的第一行是一个数据T，表示有T组数据。
+每组数据的第一行是两个整数n(1 <= n <= 40)，m(1 <= m <= n)。
+接着有n行，每行有一个正整数a(1 <= a <= 100)，表示这门课的难度值。
+Output：对于每组输入数据，输出一个整数，表示最高效率值。
+示例：
+2
+2 2
+52
+25
+12 5
+89
+64
+6
+43
+56
+72
+92
+23
+20
+22
+37
+31
+----
+5625
+8836 
+解题思路：
+1.这道题是一个贪心的题目，求一天中最大的效率值的平方和，我们务必使它的效率差值的差值最大，从而能够证效率差值的平方最大，也就能够保证效率值得平方和最大；
+2.他每天最多只能复习M门课程，而且在复习第一门课程后，他总是找一门比该课程简单的课程进行复习，那么我们可以知道只有保证了第一次的效率差值最大才能保证后面的其最大，
+当第一个不为最大的时候，后面又要一次递减，所以就更不能保证其为最大了。那么其实推理可得，我们只要保证第一次的效率值最大，也就能够保证其这一整天的效率值最大了。
+3.故只需要把每门课的难度排序，取最小的开始复习，便能保证最高效率值了。
+一遍AC.
+AC CODE
+#include<iostream>
+#include<algorithm>
+using namespace std;
+int main(){
+	int t;
+	int n,m,a[41];
+	cin>>t;
+	while(t--){
+		cin>>n>>m;
+		for(int i=0;i<n;i++){
+			cin>>a[i];
+		}
+		sort(a,a+n);
+		int result=0;
+		result=(100-a[0])*(100-a[0]);
+		cout<<result<<endl;
+	}
+	return 0;
+} 
+
+
+题号：2079
+选课时间
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2079
+题目：又到了选课的时间了，xhd看着选课表发呆，为了想让下一学期好过点，他想知道学n个学分共有多少组合。你来帮帮他吧。（xhd认为一样学分的课没区别）
+Input：输入数据的第一行是一个数据T，表示有T组数据。
+每组数据的第一行是两个整数n(1 <= n <= 40)，k(1 <= k <= 8)。
+接着有k行，每行有两个整数a(1 <= a <= 8),b(1 <= b <= 10)，表示学分为a的课有b门。
+Output：对于每组输入数据，输出一个整数，表示学n个学分的组合数。
+示例：
+2
+2 2
+1 2
+2 1
+40 8
+1 1
+2 2
+3 2
+4 2
+5 8
+6 9
+7 6
+8 8
+----
+2
+445
+解题思路：
+1.多重背包问题。
+2.母函数
+一遍AC。
+AC CODE
+#include <iostream>
+#include <cstring>
+using namespace std;
+#define min(a,b) ((a)<(b)?(a):(b))
+int T,N,K,n[8],v[8],a[42],b[42],i,j,k,last,last2;
+int main()
+{
+	cin>>T;
+	while ((T--)!=0)
+	{
+		cin>>N>>K;
+		for (i=0;i<K;i++)
+			cin>>v[i]>>n[i];
+		a[0]=1;
+		last=0;
+		for (i=0;i<K;i++)
+		{
+			last2=min(last+n[i]*v[i],N);
+			memset(b,0,sizeof(int)*(last2+1));
+			for (j=0;j<=n[i]&&j*v[i]<=last2;j++)
+				for (k=0;k<=last&&k+j*v[i]<=last2;k++)
+					b[k+j*v[i]]+=a[k];
+			memcpy(a,b,sizeof(int)*(last2+1));
+			last=last2;
+		}
+		cout<<a[N]<<endl;
+	}
+	return 0;
+}
+
+
+
+题号：2080
+夹角有多大II
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2080
+题目：这次xhd面临的问题是这样的：在一个平面内有两个点，求两个点分别和原点的连线的夹角的大小。
+
+注：夹角的范围[0，180]，两个点不会在圆心出现。
+Input：输入数据的第一行是一个数据T，表示有T组数据。
+每组数据有四个实数x1,y1,x2,y2分别表示两个点的坐标,这些实数的范围是[-10000,10000]。
+Output：对于每组输入数据，输出夹角的大小精确到小数点后两位。
+示例：
+2
+1 1 2 2
+1 1 1 0
+--------
+0.00
+45.00
+解题思路：
+1.数量积
+定义：已知两个非零向量a,b，作OA=a,OB=b，则∠AOB称作向量a和向量b的夹角，记作θ并规定0≤θ≤π
+两个向量的数量积（内积、点积）是一个数量（没有方向），记作a·b。若a、b不共线，则
+a与b的数量积a·b=|a|*|b|*cosθ；若a、b共线，则a与b的数量积a·b=(+-)|a|*|b|。 
+向量的数量积的坐标表示：a·b=x1·x2+y1·y2。向量的模表示=sqrt(x1*x1+y1*y1)
+2.因为题目给出的a，b的坐标，故可以求出a·b，a，b的模，然后公式cosθ=a·b/(|a|*|b|),再求它的反三角值，再根据弧度公式
+进行求解
+3.先输入T,再输入T组x1,y1,x2,y2，结果数据类型用double型，并保留两位小数输出。
+一遍AC。
+AC CODE
+#include<iostream>
+#include<cmath>
+#define PI 3.14159265354
+using namespace std;
+int main(){
+	int t;
+	double x1,y1,x2,y2,a,b;
+	cin>>t;
+	while(t--){
+		cin>>x1>>y1>>x2>>y2;
+		a=x1*x2+y1*y2;
+		b=sqrt(x1*x1+y1*y1)*sqrt(x2*x2+y2*y2);
+		printf("%.2lf\n",acos(a/b)/PI*180);
+	}
+	return 0;
+}
+
+2018/8/25
+题号：2081
+手机短号
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2081
+题目：大家都知道，手机号是一个11位长的数字串，同时，作为学生，还可以申请加入校园网，如果加入成功，你将另外拥有一个短号。假设所有的短号都是是 6+手机号的后5位，比
+如号码为13512345678的手机，对应的短号就是645678。
+现在，如果给你一个11位长的手机号码，你能找出对应的短号吗？ 
+Input：输入数据的第一行是一个N(N <= 200)，表示有N个数据，接下来的N行每一行为一个11位的手机号码。
+Output：输出应包括N行，每行包括一个对应的短号，输出应与输入的顺序一致。
+示例：
+2
+13512345678
+13787654321
+------------
+645678
+654321
+解题思路：
+1.输入n，再输入n个字符串。
+2.先输出6，再遍历字符串后五位并输出。
+一遍AC。
+AC code
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n;
+	char s[12];
+	cin>>n;
+	while(n--){
+	   cin>>s;
+	   int len=strlen(s);
+	   cout<<"6";
+	   for(int i=len-5;i<len;i++){
+	   	cout<<s[i];
+	   }
+	   cout<<endl;
+	}
+	return 0;
+}
+
+题号：2082
+找单词
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2082
+题目：假设有x1个字母A， x2个字母B,..... x26个字母Z，同时假设字母A的价值为1，字母B的价值为2,..... 字母Z的价值为26。那么，对于给定的字母，可以找到多少价值<=50的单
+词呢？单词的价值就是组成一个单词的所有字母的价值之和，比如，单词ACM的价值是1+3+14=18，单词HDU的价值是8+4+21=33。(组成的单词与排列顺序无关，比如ACM与CMA认为是同一
+个单词）。
+Input：输入首先是一个整数N，代表测试实例的个数。
+然后包括N行数据，每行包括26个<=20的整数x1,x2,.....x26.
+Output：对于每个测试实例，请输出能找到的总价值<=50的单词数,每个实例的输出占一行。
+示例：
+2
+1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+9 2 6 2 10 2 2 5 6 1 0 2 7 0 2 2 7 5 10 6 10 2 10 6 1 9
+--------------------------------------------------------
+7
+379297
+解题思路：
+母函数。
+一遍AC。
+AC CODE
+#include<stdio.h>
+#include<string.h>
+int main(){
+	int n,k,result,alph[27],s[27][51];
+	scanf("%d",&n);
+	while(n--){
+		memset(s,0,sizeof(s));
+		for(int i=1;i<=26;i++){
+			scanf("%d",&alph[i]);
+		}
+		for(int i=0;i<=26;i++){
+			s[i][0]=1;
+		}
+		for(int i=1;i<=26;i++){
+			for(int j=1;j<=50;j++){
+				for(int k=0;k<=alph[i]&&j-k*i>=0;k++){
+					s[i][j]+=s[i-1][j-k*i];
+				}
+			}
+		}
+		result=0;
+		for(int i=1;i<=50;i++)
+		    result+=s[26][i];
+		printf("%d\n",result);
+	}
+	return 0;
+} 
+
+题号:2083
+简易版之最短距离
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2083
+题目：寒假的时候，ACBOY要去拜访很多朋友，恰巧他所有朋友的家都处在坐标平面的X轴上。ACBOY可以任意选择一个朋友的家开始访问，但是每次访问后他都必须回到出发点，然后
+才能去访问下一个朋友。
+比如有4个朋友，对应的X轴坐标分别为1， 2， 3， 4。当ACBOY选择坐标为2的点做为出发点时，则他最终需要的时间为 |1-2|+|2-2|+|3-2|+|4-2| = 4。
+现在给出Ｎ个朋友的坐标，那么ACBOY应该怎么走才会花费时间最少呢？
+Input：输入首先是一个正整数M，表示M个测试实例。每个实例的输入有2行，首先是一个正整数N（N <= 500)，表示有N个朋友，下一行是N个正整数，表示具体的坐标(所有数据
+均<=10000).
+Output：对于每一个测试实例，请输出访问完所有朋友所花的最少时间，每个实例的输出占一行。
+示例:
+2
+2 
+2 4 
+3 
+2 4 6
+------
+2
+4
+解题思路：
+1.观察m，n，以及坐标的数据类型都没有超过int型，故都可以定义为int。
+2.将n个数保存在数组中，并将其排序。取中间的数作为出发点，可以花费时间最少。
+第一遍提交wrong answer。
+后来发现是没有对数组初始化，影响了后面的结果。
+第二遍提交编译错误。因为我改完之后直接提交了，发现没有在结尾打“;”
+第三遍提交AC.
+AC CODE
+#include<iostream>
+#include<algorithm>
+#include<cmath>
+#include<cstring>
+using namespace std;
+int main(){
+	int m,n;
+	int a[501];
+	cin>>m;
+	while(m--){
+		cin>>n;
+		memset(a,0,sizeof(a));
+		for(int i=0;i<n;i++){
+			scanf("%d",&a[i]);
+		}
+		sort(a,a+n);
+		int result=0;
+		int k=a[n/2];
+		//cout<<"a[n/2]："<<a[n/2]<<endl; 
+		for(int i=0;i<n;i++)
+		  result+=abs(k-a[i]);
+		printf("%d\n",result);
+	} 
+	return 0;
+} 
+
+题号：2084
+数塔
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2084
+题目：在讲述DP算法的时候，一个经典的例子就是数塔问题，它是这样描述的：
+
+有如下所示的数塔，要求从顶层走到底层，若每一步只能走到相邻的结点，则经过的结点的数字之和最大是多少？
+
+已经告诉你了，这是个DP的题目，你能AC吗?
+Input：输入数据首先包括一个整数C,表示测试实例的个数，每个测试实例的第一行是一个整数N(1 <= N <= 100)，表示数塔的高度，接下来用N行数字表示数塔，其中第i行有个i个
+整数，且所有的整数均在区间[0,99]内。
+Output：对于每个测试实例，输出可能得到的最大和，每个实例的输出占一行。
+示例：
+1
+5
+7
+3 8
+8 1 0 
+2 7 4 4
+4 5 2 6 5
+----------
+30
+解题思路：
+这是一个DP问题，由于很久没有做过这类题目，看见便心慌。但冷静下来思考觉得没那么难。
+1.用一个二维数组存储结点a[101][101]。
+2.遍历二维数组。从第一个结点（第1行第一列）开始累加，永远加邻接点最大的。如此时结点是a[i][j]，那么就比较a[i+1][j]
+和a[i+1][j+1],谁大就加谁。
+3.自顶向下状态比较多，自底向上的较为简单。
+AC CODE
+#include<iostream>
+#include<cstring>
+#include <algorithm>
+//#define max(a,b) (a>b)?a:b
+using namespace std;
+int a[101][101],data[101][101];
+int main(){
+	int c,n,i,j;
+	scanf("%d",&c); 
+	while(c--){
+		scanf("%d",&n); 
+		memset(a,0,sizeof(a));
+		memset(data,0,sizeof(data)) ;
+		for(i=1;i<=n;i++){
+			for(j=1;j<=i;j++){
+				scanf("%d",&a[i][j]);
+			}
+		}
+		//自底向上
+		for(i=n;i>=1;i--){
+			for(j=1;j<=i;j++){
+				data[i][j]=max(data[i+1][j],data[i+1][j+1])+a[i][j];
+			}
+		}
+		
+		printf("%d\n",data[1][1]);
+	}
+	return 0;
+}
+
+题号：2085
+核反应堆
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2085
+题目：某核反应堆有两类事件发生：
+高能质点碰击核子时，质点被吸收，放出3个高能质点和1个低能质点；
+低能质点碰击核子时，质点被吸收，放出2个高能质点和1个低能质点。
+假定开始的时候（0微秒）只有一个高能质点射入核反应堆，每一微秒引起一个事件发生(对于一个事件，当前存在的所有质点都会撞击核子)，试确定n微秒时高能质点和低能质点的数
+目。
+Input：输入含有一些整数n(0≤n≤33)，以微秒为单位，若n为-1表示处理结束。
+Output：分别输出n微秒时刻高能质点和低能质点的数量，高能质点与低能质点数量之间以逗号空格分隔。每个输出占一行。
+示例：
+5 2
+-1
+-----
+571, 209
+11, 4
+
+提示
+可以使用long long int对付GNU C++，使用__int64对付VC6
+解题思路：
+1.由题意可以得出：1微妙时，高能质点和低能质点分别为3 1；2微妙时，高能质点和低能质点分别为11（3*3+1*2） 4（3*1+1*1）；
+3微妙时，高能质点和低能质点分别为41（11*3+4*2） 15（11*1+4*1）；4微妙时，高能质点和低能质点分别为153（41*3+15*2） 56（41*1+15*1）；
+5微妙时，高能质点和低能质点分别为571（153*3+56*2） 209（153*1+56*1）；
+2.根据规律，下一微妙高能质点的数量=上一微妙高能质点数量*3+上一微妙低能质点数量*2；下一微妙低能质点的数量=上一微妙高能质点数量*1+上一微妙低能质点数量*1；
+3.注意输出形式。
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int n;
+	while(cin>>n){
+		if(n==-1) break;
+		long long int result1=1,result2=0;
+		for(int i=1;i<=n;i++)
+		{
+			long long int a=result1,b=result2;
+			result1=a*3+b*2;
+			result2=a+b;
+		}
+		cout<<result1<<", "<<result2<<endl;
+	}
+	return 0;
+}
+ 
+2018/8/26
+题号：2086
+A1 = ?
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2086
+题目：有如下方程：Ai = (Ai-1 + Ai+1)/2 - Ci (i = 1, 2, 3, .... n).
+若给出A0, An+1, 和 C1, C2, .....Cn.
+请编程计算A1 = ?
+Input：输入包括多个测试实例。
+对于每个实例，首先是一个正整数n,(n <= 3000); 然后是2个数a0, an+1.接下来的n行每行有一个数ci(i = 1, ....n);输入以文件结束符结束。
+Output：对于每个测试实例，用一行输出所求得的a1(保留2位小数).
+示例：
+1
+50.00
+25.00
+10.00
+2
+50.00
+25.00
+10.00
+20.00
+-------
+27.50
+15.00
+解题思路：
+1.这是一道递推题。
+2.a[1]=1/(n+1)*(a[n+1]+n*a[0]-2*c[n]-4*c[n-1]-8*c[n-2]...-pow(2,n)*c[1]);
+一遍AC.
+AC CODE
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int n,t;
+	double a[3001],c[3001];
+	double sum;
+	while(cin>>n){
+		scanf("%lf%lf",&a[0],&a[n+1]);
+		for(int i=1;i<=n;i++)
+		     scanf("%lf",&c[i]);
+		t=2;
+		sum=0;
+		for(int i=n;i>0;--i){
+			c[i]*=t;
+			t+=2;
+			sum+=c[i];
+		}
+		printf("%.2lf\n",1.0/(n+1)*(a[n+1]+n*a[0]-sum));
+	}
+	return 0;
+}
+
+题号：2087
+剪花布条(KMP)
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2087
+题目：一块花布条，里面有些图案，另有一块直接可用的小饰条，里面也有一些图案。对于给定的花布条和小饰条，计算一下能从花布条中尽可能剪出几块小饰条来呢？
+Input：输入中含有一些数据，分别是成对出现的花布条和小饰条，其布条都是用可见ASCII字符表示的，可见的ASCII字符有多少个，布条的花纹也有多少种花样。花纹条和小饰条不
+会超过1000个字符长。如果遇见#字符，则不再进行工作。
+Output：输出能从花纹布中剪出的最多小饰条个数，如果一块都没有，那就老老实实输出0，每个结果之间应换行。
+示例：
+abcde a3
+aaaaaa  aa
+#
+-----------
+0
+3
+解题思路：
+1.KMP
+2.从左往右找，看有几个匹配的字符串就可以了
+AC CODE
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+char a[1005],b[1005];
+int next[1005];
+void getnext(char *b)
+{
+    int l=strlen(b);
+    int i=0,j=-1;
+    next[0]=-1;
+    while(i<l)
+    {
+        if(j==-1||b[i]==b[j])
+            i++,j++,next[i]=j;
+        else
+            j=next[j];
+    }
+}
+int main()
+{
+    while(scanf("%s",a))
+    {
+        if(a[0]=='#'&&a[1]=='\0')
+            break;
+        scanf("%s",b);
+        getnext(b);
+        int sum=0;
+ 
+        int l1=strlen(a);
+        int l2=strlen(b);
+ 
+        if(l2>l1)
+            printf("0\n");
+        else
+        {
+            int i=0,j=0;
+            while(i<l1)
+            {
+                if(j==-1||a[i]==b[j])
+                    i++,j++;
+                else
+                    j=next[j];
+                if(j==l2)
+                {
+                    j=0;
+                    sum++;
+                }
+            }
+            printf("%d\n",sum);
+        }
+ 
+    }
+    return 0;
+}
+
+
+题号：2088
+Box of Bricks
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2088
+题目：Little Bob likes playing with his box of bricks. He puts the bricks one upon another and builds stacks of different height. “Look, I've built a wall!”, 
+he tells his older sister Alice. “Nah, you should make all stacks the same height. Then you would have a real wall.”, she retorts. After a little consideration,
+ Bob sees that she is right. So he sets out to rearrange the bricks, one by one, such that all stacks are the same height afterwards. But since Bob is lazy he 
+ wants to do this with the minimum number of bricks moved. Can you help?
+Input：The input consists of several data sets. Each set begins with a line containing the number n of stacks Bob has built. The next line contains n numbers, the heights hi of the n stacks. You may assume 1≤n≤50 and 1≤hi≤100.
+
+The total number of bricks will be divisible by the number of stacks. Thus, it is always possible to rearrange the bricks such that all stacks have the same height.
+
+The input is terminated by a set starting with n = 0. This set should not be processed.
+Output：For each set, print the minimum number of bricks that have to be moved in order to make all the stacks the same height.
+Output a blank line between each set.
+Sample ：
+6
+5 2 4 1 7 5
+0
+------
+5
+解题思路:
+题目大意：给你N堆砖的高度，通过移动，使得这N堆砖变得一样高，问最少移动多少块砖。
+1.先求出平均高度
+2.然后遍历所有的数，把低于或者高于平均高度的总和相加便是最少移动的最少砖数。
+3.注意格式输出。
+第一遍wrong answer。
+AC CODE
+#include<iostream>
+using namespace std; 
+int main()
+{
+    int N,a[51],flag = 0;
+    while(cin >> N && N!=0)
+    {
+        if(flag == 0)
+            flag = 1;
+        else
+            cout << endl;
+        int Sum = 0;
+        for(int i = 0; i < N; ++i)
+        {
+            cin >> a[i];
+            Sum += a[i];
+        }
+        Sum /= N;
+        int ans = 0;
+        for(int i = 0; i < N; ++i)
+        {
+            if(a[i] < Sum)
+                ans += (Sum-a[i]);
+        }
+        cout << ans << endl;
+    }
+ 
+    return 0;
+}
+
+
+
+题号：2089
+不要62
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2089
+题目：杭州人称那些傻乎乎粘嗒嗒的人为62（音：laoer）。
+杭州交通管理局经常会扩充一些的士车牌照，新近出来一个好消息，以后上牌照，不再含有不吉利的数字了，这样一来，就可以消除个别的士司机和乘客的心理障碍，更安全地服务大众。
+不吉利的数字为所有含有4或62的号码。例如：
+62315 73418 88914
+都属于不吉利号码。但是，61152虽然含有6和2，但不是62连号，所以不属于不吉利数字之列。
+你的任务是，对于每次给出的一个牌照区间号，推断出交管局今次又要实际上给多少辆新的士车上牌照了。
+Input：输入的都是整数对n、m（0<n≤m<1000000），如果遇到都是0的整数对，则输入结束。
+Output：对于每个整数对，输出一个不含有不吉利数字的统计个数，该数值占一行位置。
+示例：
+1 100
+0 0
+-----
+80
+解题思路：
+1.求一个区间内是否包含62，或4；
+2.将n到m的之间的出求余，存到数组中。
+3.输入n，m把n，m的数看做数组串，若数组中含有62或者4都算不吉利。
+第一遍提交：Time Limit Exceeded	
+超时代码：
+#include<iostream>
+#include<cstring>
+using namespace std;
+int main(){
+	int s[10];
+	int n,m,k,i,j;
+	while(cin>>n>>m){
+		if(n==0&&m==0) break;
+		int count=0;
+		memset(s,0,sizeof(s)); 
+		for(i=n;i<=m;i++){
+			k=0;
+			int q=i;
+			//cout<<"i="<<i<<endl;			
+			while(i!=0){
+			s[k]=i%10;
+			i/=10;
+			k++;
+	      	}
+	      	bool flag=false;
+	        for(j=k-1;j>=0;j--){
+	            if(s[j]==4||(s[j]==6&&s[j-1]==2))
+	            	flag=true;  
+			}
+			if(flag) count++;
+	      	//cout<<"count:"<<count<<endl;
+	      	i=q;
+		}
+		cout<<m-n+1-count<<endl;
+	}
+	return 0;
+} 
+
+AC CODE
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+int dight[32];
+int dp[20][2];
+ 
+int dfs(int pos, bool state, bool limit)
+{
+    if(!pos) return 1;
+    if(!limit && dp[pos][state] != -1) return dp[pos][state];
+    int up = limit ? dight[pos] : 9;
+    int res = 0;
+    for(int i = 0;i <= up;i ++) {
+        if(i == 4 || state && i == 2) continue;
+        res += dfs(pos-1, i == 6, limit && i == dight[pos]);
+    }
+    if(!limit) dp[pos][state] = res;
+    return res;
+}
+int solve(int n)
+{
+    int cnt = 0;
+    while(n) {
+        dight[++cnt] = n % 10;
+        n /= 10;
+    }
+    return dfs(cnt, 0, 1);
+}
+int main()
+{
+    memset(dp, -1, sizeof(dp));
+    int n, m;
+    while(scanf("%d %d", &n, &m)) {
+        if(n == 0 && m == 0) break;
+        printf("%d\n", solve(m) - solve(n-1));
+    }
+    return 0;
+}
+
+题号：2090
+算菜价
+题目链接:http://acm.hdu.edu.cn/showproblem.php?pid=2090
+题目：妈妈每天都要出去买菜，但是回来后，兜里的钱也懒得数一数，到底花了多少钱真是一笔糊涂帐。现在好了，作为好儿子（女儿）的你可以给她用程序算一下了，呵呵。
+Input：输入含有一些数据组，每组数据包括菜种（字串），数量（计量单位不论，一律为double型数）和单价（double型数，表示人民币元数），因此，每组数据的菜价就是数量乘
+上单价啊。菜种、数量和单价之间都有空格隔开的。
+Output：支付菜价的时候，由于最小支付单位是角，所以总是在支付的时候采用四舍五入的方法把分头去掉。最后，请输出一个精度为角的菜价总量。
+示例：
+青菜 1  2
+罗卜 2  1.5
+鸡腿 2  4.2
+------------
+13.4
+解题思路：
+1.菜种（字串）s，数量（double）a，单价（double）b
+2.用result存储结果;result+=a*b;
+3.因为菜价都是正数，不用考虑负数的四舍五入，保留一位小数，故可以采用（a*10+0.5）/10;
+一遍AC 
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	char s[30];
+	double a,b,result=0;
+	while(~scanf("%s%lf%lf",s,&a,&b))
+		result+=a*b;
+	printf("%.1lf\n",(result*10+0.5)/10);
+	return 0;
+} 
+
+
+2018/8/27
+题号：2091
+空心三角形
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2091
+题目：把一个字符三角形掏空，就能节省材料成本，减轻重量，但关键是为了追求另一种视觉效果。在设计的过程中，需要给出各种花纹的材料和大小尺寸的三角形样板，通过电脑
+临时做出来，以便看看效果。
+Input：每行包含一个字符和一个整数n(0<n<41)，不同的字符表示不同的花纹，整数n表示等腰三角形的高。显然其底边长为2n-1。如果遇到@字符，则表示所做出来的样板三角形已经
+够了。
+Output：每个样板三角形之间应空上一行，三角形的中间为空。显然行末没有多余的空格。
+示例：
+X 2
+A 7
+@
+---
+ X
+XXX
+　
+      A
+     A A
+    A   A
+   A     A
+  A       A
+ A         A
+AAAAAAAAAAAAA
+解题思路：
+1.输入c和n，找规律，第一行都是输出n-1空格再输出字符。第二行输出n-2个字符输出字符....之后依次类推
+2.中间输出的空格，从第2行起都要输出空格，第2行输出1个空格，第三行输出3个空格，第4行输出5个空格，即从第2行起是输出（i-1）*2-1=2*i-3个空格再输出字符。
+3.最后一行是输出2*n-1个字符。
+4.每个样板三角形之间应空上一行,这句话开始没有理解，导致输出错误。原来这句话是指第一个三角形与样例之间不用空一行，之后的三角形与样例都要空一行。
+一遍提交说表达形式错误。
+后仔细读题，修正代码AC.
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	char c;
+	int n,i,j,flag=0;
+	while(cin>>c&&c!='@'){
+		cin>>n;
+		if(flag!=0) cout<<endl;
+		for(i=1;i<=n-1;i++){
+			for(j=n;j>i;j--)
+				printf(" ");
+			if(i==1) cout<<c;
+			else{
+				int k=(i-1)*2-1;
+				cout<<c;
+				while(k){
+					cout<<" ";
+					--k;
+				}
+			    cout<<c;
+			}
+		    cout<<endl;
+		}
+		int m=2*n-1;
+		while(m--)
+		    cout<<c;
+		cout<<endl; 
+	    flag = 1;
+	}
+	return 0;
+}
+
+题号：2092
+整数解
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2092
+题目：有二个整数，它们加起来等于某个整数，乘起来又等于另一个整数，它们到底是真还是假，也就是这种整数到底存不存在，实在有点吃不准，你能快速回答吗？看来只能通过
+编程。
+例如：
+x + y = 9，x * y = 15 ? 找不到这样的整数x和y
+1+4=5，1*4=4，所以，加起来等于5，乘起来等于4的二个整数为1和4
+7+(-8)=-1，7*（-8）=-56，所以，加起来等于-1，乘起来等于-56的二个整数为7和-8
+Input：输入数据为成对出现的整数n，m（-10000<n,m<10000），它们分别表示整数的和与积，如果两者都为0，则输入结束。
+Output：只需要对于每个n和m，输出“Yes”或者“No”，明确有还是没有这种整数就行了。
+示例：
+9 15
+5 4
+1 -56
+0 0
+-----
+No
+Yes
+Yes
+解题思路：
+这题可以暴力解题，但是不主张这样做。
+暴力解题的代码如下
+AC CODE
+另外一种解法
+建立方程,方程的具体推导过程如下：
+x+y=a
+x*y=b
+(x+y)^2=x^2+y^2+2*x*y=a^2
+x^2+y^2=a^2-2ab
+(x-y)^2=a^2-2ab-2ab=a^2-4ab
+x-y=sqrt(a^2-4ab)
+2x=a+sqrt(a^2-4ab)
+2y=a-sqrt(a^2-4ab)
+根据方程求解，并检验答案是否准确。
+一遍AC.
+AC CODE
+#include<math.h>
+#include<stdio.h>
+int main()
+{
+    int n,m,x1,x2,y1,y2;
+    while(scanf("%d%d",&n,&m)&&!(n==0&&m==0))
+    {
+        int a;
+        a=n*n-4*m;
+        if(a<0) printf("No\n");
+        else
+        {
+            x1=(n+sqrt(a))/2;
+            y1=n-x1;
+            x2=(n-sqrt(a))/2;
+            y2=n-x2;
+            if(x1*y1==m||x2*y2==m)
+                printf("Yes\n");
+            else printf("No\n");
+        }
+    }
+    return 0;
+}
+
+ 
+题号：2093
+考试排名
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2093
+题目：C++编程考试使用的实时提交系统，具有即时获得成绩排名的特点。它的功能是怎么实现的呢？
+我们做好了题目的解答，提交之后，要么“AC”，要么错误，不管怎样错法，总是给你记上一笔，表明你曾经有过一次错误提交，因而当你一旦提交该题“AC”后，就要与你算一算帐了，
+总共该题错误提交了几回。虽然你在题数上，大步地跃上了一个台阶，但是在耗时上要摊上你共花去的时间。特别是，曾经有过的错误提交，每次都要摊上一定的单位时间分。这样
+一来，你在做出的题数上，可能领先别人很多，但是，在做出同样题数的人群中，你可能会在耗时上处于排名的劣势。
+例如：某次考试一共8题（A，B，C，D，E，F，G，H），每个人做的题都在对应的题号下有个数量标记，负数表示该学生在该题上有过的错误提交次数，但到现在还没有AC，正数表示
+AC所耗的时间，如果正数a跟上一对括号，里面有个整数b，那就表示该学生提交该题AC了，耗去了时间a，同时，曾经错误提交了b次，因此对于下述输入数据：
+若每次错误提交的罚分为20分，则其排名从高到低应该是这样的：
+Josephus 5 376
+John 4 284
+Alice 4 352
+Smith 3 167
+Bob 2 325
+Bush 0 0
+Input：输入数据的第一行是考试题数n（1≤n≤12）以及单位罚分数m（10≤m≤20），每行数据描述一个学生的用户名（不多于10个字符的字串）以及对所有n道题的答题现状，其描述采
+用问题描述中的数量标记的格式，见上面的表格，提交次数总是小于100，AC所耗时间总是小于1000。
+Output：将这些学生的考试现状，输出一个实时排名。实时排名显然先按AC题数的多少排，多的在前，再按时间分的多少排，少的在前，如果凑巧前两者都相等，则按名字的字典序
+排，小的在前。每个学生占一行，输出名字（10个字符宽），做出的题数（2个字符宽，右对齐）和时间分（4个字符宽，右对齐）。名字、题数和时间分相互之间有一个空格。
+示例
+8 20
+Smith	  -1	-16	8	0	0	120	39	0
+John	  116	-2	11	0	0	82	55(1)	0
+Josephus  72(3)	126	10	-3	0	47	21(2)	-2
+Bush	  0	-1	-8	0	0	0	0	0
+Alice	  -2	67(2)	13	-1	0	133	79(1)	-1
+Bob	  0	0	57(5)	0	0	168	-7	0
+-------------------------------------
+Josephus    5  376
+John        4  284
+Alice       4  352
+Smith       3  167
+Bob         2  325
+Bush        0    0
+解题思路：
+1.定义一个结构体，存储名字，做对的题数，和用时
+2.使用c++内置函数sort排序对做对的题数从大到小排序，用时从小到大排序，名字也由小达到怕爱徐
+3.注意输出格式，输出右对齐setw
+一遍AC。
+AC CODE
+#include<iostream>
+#include<cstring>
+#include<string>
+#include<algorithm>
+#include<iomanip>
+using namespace std;
+const int N=10001;
+struct student{
+	char name[15];
+	int cnt;
+	int time;
+}stu[N];
+bool cmp(student x,student y){
+	if(x.cnt!=y.cnt) return x.cnt>y.cnt;//AC题的题数从大到小排序
+	else if(x.time!=y.time) return x.time<y.time; //用时从小到大排序
+	else return strcmp(x.name,y.name)<0;//名字对字符串排序 
+} 
+int main(){
+	int n,m;
+	while(cin>>n>>m){
+		int t=0;
+		char s[12];
+		while(~scanf("%s",stu[t].name)){
+			stu[t].cnt=0;
+			stu[t].time=0;
+			for(int i=0;i<n;i++){
+				scanf("%s",s);
+				if(s[0]=='-')continue;
+				if(strcmp(s,"0")==0) continue;
+				stu[t].cnt++;
+				int j,temp=0;
+				for(j=0;j<strlen(s);j++){
+					if(s[j]=='(') break;
+					temp=temp*10+s[j]-'0';
+				}
+				stu[t].time+=temp;
+				temp=0;
+				if(j<strlen(s)){ //计算罚时 
+					for(int k=j+1;k<strlen(s)-1;k++){
+						temp=temp*10+s[k]-'0'; 
+					}
+				}
+				stu[t].time+=temp*m;
+			}
+			t++;			
+		}
+		sort(stu,stu+t,cmp);
+		for(int i=0;i<t;i++){ 
+		    //控制左对齐
+		    cout.flags(ios::left);
+		    //控制占用字符 
+			cout<<setw(10)<<stu[i].name<<" ";
+			//控制右对齐
+		    cout.flags(ios::right);
+		    cout<<setw(2)<<stu[i].cnt<<" ";
+			cout<<setw(4)<<stu[i].time<<endl;
+		}
+	}
+	return 0;
+} 
+2018/8/28
+题号：2094
+产生冠军
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2094
+题目：有一群人，打乒乓球比赛，两两捉对撕杀，每两个人之间最多打一场比赛。
+球赛的规则如下：
+如果A打败了B，B又打败了C，而A与C之间没有进行过比赛，那么就认定，A一定能打败C。
+如果A打败了B，B又打败了C，而且，C又打败了A，那么A、B、C三者都不可能成为冠军。
+根据这个规则，无需循环较量，或许就能确定冠军。你的任务就是面对一群比赛选手，在经过了若干场撕杀之后，确定是否已经实际上产生了冠军。
+Input：输入含有一些选手群，每群选手都以一个整数n(n<1000)开头，后跟n对选手的比赛结果，比赛结果以一对选手名字（中间隔一空格）表示，前者战胜后者。如果n为0，则表示
+输入结束。
+Output：对于每个选手群，若你判断出产生了冠军，则在一行中输出“Yes”，否则在一行中输出“No”。
+示例：
+3
+Alice Bob
+Smith John
+Alice Smith
+5
+a c
+c d
+d e
+b e
+a d
+0
+-------
+Yes
+No
+解题思路：
+1.使用STL的set去重
+2.与其列出所有人名然后筛选出赢过的，还不如直接只给赢过的列表。那么我们需要两个表，一个放赢家（只要赢过都算），一个放输家（只要输过的就算）。
+3.拿赢家中的每一个对象在输家中找，如果找到就可以摔掉了。最后剩下的就是超级大赢家了
+第一遍wrong answer。
+AC CODE
+#include<iostream>
+#include<cstdio>
+#include<cstring>
+#include<string>
+#include<algorithm>
+#include<map>
+using namespace std;
+ 
+map<string,int>M;
+int inde[1005];
+ 
+int main()
+{
+    int n;
+    char s1[1100],s2[1100];
+    while(cin>>n&&n)
+    {
+        M.clear();
+        memset(inde,0,sizeof(inde));
+        int t=1;
+        for(int i=0;i<n;i++)
+        {
+            scanf("%s%s",s1,s2);
+            if(!M[s1]) M[s1]=t++;
+            if(!M[s2]) M[s2]=t++;
+            inde[M[s2]]++;
+        }
+        int flag=0;
+        for(int i=1;i<t;i++)
+        {
+            if(!inde[i]) flag++;
+        }
+        if(flag==1) cout<<"Yes"<<endl;
+        else cout<<"No"<<endl;
+    }
+    return 0;
+}
+
+
+
+题号：2095
+find your present (2)
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2095
+题目：In the new year party, everybody will get a "special present".Now it's your turn to get your special present, a lot of presents now putting on the desk, 
+and only one of them will be yours.Each present has a card number on it, and your present's card number will be the one that different from all the others, and 
+you can assume that only one number appear odd times.For example, there are 5 present, and their card numbers are 1, 2, 3, 2, 1.so your present will be the one 
+with the card number of 3, because 3 is the number that different from all the others.
+Input：The input file will consist of several cases.
+Each case will be presented by an integer n (1<=n<1000000, and n is odd) at first. Following that, n positive integers will be given in a line, all integers 
+will smaller than 2^31. These numbers indicate the card numbers of the presents.n = 0 ends the input.
+Output：For each case, output an integer in a line, which is the card number of your present.
+Sample：
+5
+1 1 3 2 2
+3
+1 2 1
+0
+------
+3
+2
+解题思路：
+1.使用STL里面的set
+2.当容器里没有这个元素的时候，就插入这个元素，否则，删除这个元素。
+3.若容器里面只有一个元素，则那就是结果
+一遍AC。
+AC CODE
+#include <set>
+#include <stdio.h>
+using namespace std;
+int main()
+{
+    int n,x;
+    set <int> S;
+    while(scanf("%d",&n),n)
+    {
+        while(n--)
+        {
+            scanf("%d",&x);
+            if(S.find(x) == S.end())    
+                S.insert(x);
+            else                       
+                S.erase(x);
+        }
+        printf("%d\n",*S.begin());
+        S.clear();
+    }
+    return 0;
+} 
+
+2018/8/29
+题号:2096
+小明A+B
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2096
+题目：小明今年3岁了, 现在他已经能够认识100以内的非负整数, 并且能够进行100以内的非负整数的加法计算.
+对于大于等于100的整数, 小明仅保留该数的最后两位进行计算, 如果计算结果大于等于100, 那么小明也仅保留计算结果的最后两位.
+
+例如, 对于小明来说:
+1) 1234和34是相等的
+2) 35+80=15
+
+给定非负整数A和B, 你的任务是代表小明计算出A+B的值.
+Input：输入数据的第一行为一个正整数T, 表示测试数据的组数. 然后是T组测试数据. 每组测试数据包含两个非负整数A和B(A和B均在int型可表示的范围内).
+Output：对于每组测试数据, 输出小明A+B的结果.
+示例：
+2
+35 80
+15 1152
+--------
+15
+67
+解题思路：
+1.输入T，输入A.B,将A.B对100求余取后两位数
+2.然后对新的A,B求和并输出、
+一遍AC。
+AC CODE
+#include<iostream>
+using namespace std;
+int main(){
+	int T;
+	int a,b;
+	cin>>T;
+	while(T--){
+		cin>>a>>b;
+		a=a%100;
+		b=b%100;
+		cout<<(a+b)%100<<endl;
+	}
+	return 0;
+}
+
+题号：2097
+Sky数
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2097
+题目：Sky从小喜欢奇特的东西，而且天生对数字特别敏感，一次偶然的机会，他发现了一个有趣的四位数2992，这个数，它的十进制数表示，其四位数字之和为2+9+9+2=22，它的
+十六进制数BB0，其四位数字之和也为22，同时它的十二进制数表示1894，其四位数字之和也为22，啊哈，真是巧啊。Sky非常喜欢这种四位数，由于他的发现，所以这里我们命名其
+为Sky数。但是要判断这样的数还是有点麻烦啊，那么现在请你帮忙来判断任何一个十进制的四位数，是不是Sky数吧。
+Input：输入含有一些四位正整数，如果为0，则输入结束。
+Output：若n为Sky数，则输出“#n is a Sky Number.”，否则输出“#n is not a Sky Number.”。每个结果占一行。注意：#n表示所读入的n值。
+示例：
+2992
+1234
+0
+----
+2992 is a Sky Number.
+1234 is not a Sky Number.
+解题思路：
+1.写一个进制转换的函数，可以任意转换任何进制
+2.然后将一个数十进制表示的每个数字之和与16进制表示的每个数字之和以及和12进制表示的每个数字之和进行比较
+3.他们之和都相等，则为sky数，否则不是。
+一遍AC.
+AC CODE
+#include<iostream> 
+using namespace std;
+int transum(int n,int b){
+	int sum=0;
+	while(n){
+		sum+=n%b;
+		n/=b;
+	}
+	return sum;
+}
+int main(){
+	int n;
+	while(cin>>n){
+		if(n==0) break;
+		int sum0=transum(n,10);
+		int sum1=transum(n,12);
+		int sum2=transum(n,16);
+		if(sum0==sum1&&sum1==sum2){
+			cout<<n<<" is a Sky Number."<<endl;
+		}else{
+			cout<<n<<" is not a Sky Number."<<endl;
+		}
+	}
+	return 0;
+}
+
+
+
+
+2018/8/30
+题号：2098
+分拆素数和
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2098
+题目：把一个偶数拆成两个不同素数的和，有几种拆法呢？
+Input：输入包含一些正的偶数，其值不会超过10000，个数不会超过500，若遇0，则结束。
+Output:对应每个偶数，输出其拆成不同素数的个数，每个结果占一行。
+示例：
+30
+26
+0
+----
+3
+2
+解题思路：
+1.写一个求素数的函数
+2.然后两个都为素数的和是否满足条件，则count++。
+AC CODE
+#include<cstdio>
+#include<cmath>
+int is_prime(int n){
+	int i,k=sqrt(n);
+	for(i=2;i<=k;i++){
+		if(n%i==0)
+		  return 0;
+	}
+	return 1;
+}
+int main(){
+	int n,i,j,count;
+	while(~scanf("%d",&n),n){
+		count=0;
+		j=n/2;
+		for(i=3;i<j;i++){
+			if(is_prime(i)&&is_prime(n-i))
+			    count++;
+		}
+		printf("%d\n",count);
+	}
+	return 0;
+}
+
+
+
+题号：2099
+整除的尾数
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2099
+题目：一个整数，只知道前几位，不知道末二位，被另一个整数除尽了，那么该数的末二位该是什么呢？
+Input：输入数据有若干组，每组数据包含二个整数a，b（0<a<10000, 10<b<100），若遇到0 0则处理结束。
+Output：对应每组数据，将满足条件的所有尾数在一行内输出，格式见样本输出。同组数据的输出，其每个尾数之间空一格，行末没有空格。
+示例：
+200 40
+1992 95
+0 0
+------
+00 40 80
+15
+解题思路：
+1.把i从0遍历到99，看原来的（a*100+i）/b能不能被整除。若能，则输出这个i。
+2.当i小于10的时候，先输出一个0再输出i。
+3.注意格式输出。
+第一遍wrong answer。
+第二遍AC.
+AC CODE:
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a, b, count;
+ 
+    while(cin >> a >> b) {
+        if(a == 0 && b == 0)
+            break; 
+        count = 0;
+        for(int i=0; i<100; i++)
+            if((a*100 + i) % b == 0) {
+                if(++count > 1)
+                    printf(" ");
+                printf("%02d", i);
+            }
+        printf("\n");
+    }
+ 
+    return 0;
+}
+
+2018/8/31
+因为对dijkstra算法不熟悉，先前空了这题，仔细翻看了《数据结构》的书，了解dijkstra算法后重新做这题。
+题号：2066
+一个人的旅行
+题目链接：http://acm.hdu.edu.cn/showproblem.php?pid=2066
+题目：虽然草儿是个路痴（就是在杭电待了一年多，居然还会在校园里迷路的人，汗~),但是草儿仍然很喜欢旅行，因为在旅途中 会遇见很多人（白马王子，^0^），很多事，还能
+丰富自己的阅历，还可以看美丽的风景……草儿想去很多地方，她想要去东京铁塔看夜景，去威尼斯看电影，去阳明山上看海芋，去纽约纯粹看雪景，去巴黎喝咖啡写信，去北京探望
+孟姜女……眼看寒假就快到了，这么一大段时间，可不能浪费啊，一定要给自己好好的放个假，可是也不能荒废了训练啊，所以草儿决定在要在最短的时间去一个自己想去的地方！
+因为草儿的家在一个小镇上，没有火车经过，所以她只能去邻近的城市坐火车（好可怜啊~）。
+Input：输入数据有多组，每组的第一行是三个整数T，S和D，表示有T条路，和草儿家相邻的城市的有S个，草儿想去的地方有D个；
+接着有T行，每行有三个整数a，b，time,表示a,b城市之间的车程是time小时；(1=<(a,b)<=1000;a,b 之间可能有多条路)
+接着的第T+1行有S个数，表示和草儿家相连的城市；
+接着的第T+2行有D个数，表示草儿想去地方。
+Output：输出草儿能去某个喜欢的城市的最短时间。
+示例：
+6 2 3
+1 3 5
+1 4 7
+2 8 12
+3 8 4
+4 9 12
+9 10 2
+1 2
+8 9 10
+-------
+9
+解题思路：
+1.dijkstra算法
+2.把草儿的家作为起点，与他相邻的城市作为权值为0的边，这样就转换成单源起点的最短路问题用dijkstra算法解决
+一遍AC
+AC CODE
+#include<iostream>
+#include<stdio.h>
+#include<string.h>
+#include<map>
+#include<vector>
+#include<set>
+#include<stack>
+#include<queue>
+#include<algorithm>
+#include<stdlib.h>
+using namespace std;
+#define MAX(a,b) (a > b ? a : b)
+#define MIN(a,b) (a < b ? a : b)
+#define MAXN  10000001
+#define INF 1000000007
+#define mem(a) memset(a,0,sizeof(a))
+
+int w[1001][1001],s,t[1001],d[1001],vis[1001];
+int T,S,D;
+int key;
+
+void dijkstra(int st)
+{
+    mem(vis);
+    for(int i=1;i<=key;i++)d[i]=INF;
+    for(int i=0;i<=key;i++)
+    {
+        int m=INF;
+        for(int j=0; j<=key;j++)
+        {
+            if(!vis[j] && m>=d[j]) m = d[st=j];
+        }
+        vis[st]=1;
+        for(int j=0;j<=key;j++)
+        {
+            d[j] = MIN(d[j], d[st]+w[st][j]);
+        }
+    }
+}
+
+int main()
+{
+    while(~scanf("%d%d%d",&T,&S,&D))
+    {
+        mem(w);
+        int a,b,x;
+        key = 0;
+        for(int i=0;i<=1000;i++)
+        {
+            for(int j=0;j<=1000;j++)
+            {
+                w[i][j] = INF;
+            }
+        }
+        for(int i=0;i<T;i++)
+        {
+            scanf("%d%d%d",&a,&b,&x);
+             if(w[a][b] > x)w[a][b] = w[b][a] = x;
+             key = MAX(key,MAX(a,b));
+        }
+
+        for(int i=0;i<S;i++)
+        {
+            scanf("%d", &s);
+            w[0][s] = 0;
+        }
+        for(int i=0;i<D;i++)
+        {
+            scanf("%d",&t[i]);
+        }
+
+        dijkstra(0);
+
+        int ans = INF;
+        for(int j=0;j<D;j++)
+        {
+            ans = MIN(ans, d[t[j]]);
+        }
+        printf("%d\n", ans);
+
+    }
+    return 0;
+}
+
